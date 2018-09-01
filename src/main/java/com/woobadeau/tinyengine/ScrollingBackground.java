@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class ScrollingBackground extends Sprite {
 
-    private int speed = 5;
+    private int speed = 2;
     private boolean duplicated = false;
 
     ScrollingBackground(BufferedImage image, int zIndex) {
@@ -40,6 +40,4 @@ public class ScrollingBackground extends Sprite {
             this.destroy();
         }
     }
-
-
 }

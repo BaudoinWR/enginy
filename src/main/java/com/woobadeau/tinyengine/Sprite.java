@@ -13,7 +13,7 @@ public class Sprite extends RectangularThing implements ThingMouseListener {
         this.zIndex = zIndex;
     }
 
-    private static BufferedImage resize(BufferedImage img, int newW, int newH) {
+    protected static BufferedImage resize(BufferedImage img, int newW, int newH) {
         Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
         BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
 

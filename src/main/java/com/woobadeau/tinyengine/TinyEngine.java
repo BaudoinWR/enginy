@@ -5,6 +5,7 @@ import com.woobadeau.tinyengine.main.Dotty;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
@@ -22,6 +23,7 @@ public class TinyEngine {
   public static BufferedImage screen = new BufferedImage(600, 600, BufferedImage.TYPE_INT_ARGB);
   public static Point mousePosition;
   public static int width;
+  public static boolean mouseDown = false;
   private static int height;
 
   public TinyEngine(int width, int height) {
@@ -41,7 +43,7 @@ public class TinyEngine {
       frame.setVisible(true);
     });
     Timer timer;
-    timer = new Timer(1000/25, e -> {tick();});
+    timer = new Timer(1000/25, e -> tick());
     timer.setRepeats(true);
     timer.setCoalesce(true);
     timer.start();
@@ -50,7 +52,6 @@ public class TinyEngine {
   }
 
   static void tick() {
-    System.out.println(things.size());
     List<Thing> collect = things.stream().sorted(Comparator.comparing(Thing::getZIndex)).collect(Collectors.toList());
     mousePosition = display.getMousePosition();
     applyActions(collect);
@@ -120,10 +121,12 @@ public class TinyEngine {
 
     @Override
     public void mousePressed(MouseEvent e) {
+      mouseDown = true;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+      mouseDown = false;
     }
 
     @Override
@@ -133,6 +136,7 @@ public class TinyEngine {
     @Override
     public void mouseExited(MouseEvent e) {
     }
+
   }
 
 }
