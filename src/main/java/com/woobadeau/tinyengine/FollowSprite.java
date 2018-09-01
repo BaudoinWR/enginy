@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class FollowSprite extends Sprite {
     public FollowSprite(BufferedImage image) {
-        super(image);
+        super(image, 0);
     }
 
     @Override

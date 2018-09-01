@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 abstract class Thing {
   protected Vector2D position = new Vector2D(0,0);
   Shape shape;
-  protected int zIndex = 0;
+  protected int zIndex = 10;
   Set<Thing> things = new HashSet<>();
 
   Thing() {
@@ -37,7 +37,7 @@ abstract class Thing {
     behaviors.forEach(consumer -> consumer.accept(this));
   }
 
-  protected final void move(Vector2D newPosition) {
+  public final void move(Vector2D newPosition) {
     position = newPosition;
     updateShape();
   }

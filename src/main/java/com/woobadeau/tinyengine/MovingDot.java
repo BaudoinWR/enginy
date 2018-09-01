@@ -1,14 +1,8 @@
-package com.woobadeau.tinyengine; /**
- * Paquet de définition
- **/
-
+package com.woobadeau.tinyengine;
 import java.awt.*;
 import java.awt.event.MouseListener;
 import java.util.Random;
 
-/**
- * Description: Merci de donner une description du service rendu par cette classe
- **/
 public class MovingDot extends Thing implements ThingMouseListener {
   Random rand = new Random();
 
@@ -20,7 +14,7 @@ public class MovingDot extends Thing implements ThingMouseListener {
 
   @Override
   public void draw(Graphics graphics) {
-    graphics.setColor(Color.BLUE);
+    graphics.setColor(Color.RED);
     graphics.drawOval(this.position.x, this.position.y, 5, 5);
   }
 

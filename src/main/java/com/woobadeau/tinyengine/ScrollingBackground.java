@@ -10,14 +10,13 @@ public class ScrollingBackground extends Sprite {
     private boolean duplicated = false;
 
     ScrollingBackground(BufferedImage image, int zIndex) {
-        super(image);
-        this.zIndex = zIndex;
+        super(image, zIndex);
         init();
     }
 
     public ScrollingBackground(String s, int zIndex) throws IOException {
-        super(ImageIO.read(ScrollingBackground.class.getResourceAsStream(s)));
-        this.zIndex = zIndex;
+        super(ImageIO.read(ScrollingBackground.class.getResourceAsStream(s)), zIndex);
+        scale(1024, 640);
         init();
     }
 
@@ -41,4 +40,6 @@ public class ScrollingBackground extends Sprite {
             this.destroy();
         }
     }
+
+
 }
