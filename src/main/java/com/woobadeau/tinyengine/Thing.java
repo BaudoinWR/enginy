@@ -2,12 +2,16 @@ package com.woobadeau.tinyengine;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 abstract class Thing {
-  Vector2D position = new Vector2D(0,0);
+  protected Vector2D position = new Vector2D(0,0);
   Shape shape;
+  protected int zIndex = 0;
+  Set<Thing> things = new HashSet<>();
 
   Thing() {
     TinyEngine.register(this);
@@ -15,21 +19,25 @@ abstract class Thing {
   }
   
   private List<Consumer<Thing>> behaviors = new ArrayList<>();
-  void addBehavior(Consumer<Thing> behavior) {
+  protected void addBehavior(Consumer<Thing> behavior) {
     this.behaviors.add(behavior);
   }
-  int getZIndex() { return 0; }
-  void onCreate() {}
-  void beforeUpdate() {}
-  void update() {}
-  void afterUpdate() {}
-  void onDestroy() {}
-  void draw(Graphics graphics) {}
+  int getZIndex() { return zIndex; }
+  protected void onCreate() {}
+  protected void beforeUpdate() {}
+  protected void update() {}
+  protected void afterUpdate() {}
+  final  void destroy() {
+    TinyEngine.remove(this);
+    things.forEach(TinyEngine::remove);
+    things.forEach(Thing::destroy);
+  }
+  protected void draw(Graphics graphics) {}
   final void applyBehaviors() {
     behaviors.forEach(consumer -> consumer.accept(this));
   }
 
-  final void move(Vector2D newPosition) {
+  protected final void move(Vector2D newPosition) {
     position = newPosition;
     updateShape();
   }

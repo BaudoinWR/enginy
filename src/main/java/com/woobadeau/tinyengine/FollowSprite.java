@@ -8,7 +8,7 @@ public class FollowSprite extends Sprite {
     }
 
     @Override
-    void update() {
+    protected void update() {
         if (TinyEngine.mousePosition != null) {
             int x = TinyEngine.mousePosition.x - image.getWidth(null)/2;
             int y = TinyEngine.mousePosition.y - image.getHeight(null)/2;

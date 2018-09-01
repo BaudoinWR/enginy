@@ -11,10 +11,9 @@ import java.util.Random;
  **/
 public class MovingDot extends Thing implements ThingMouseListener {
   Random rand = new Random();
-  Movement movement;
 
   public MovingDot(int minX, int minY, int maxX, int maxY) {
-    movement = new RandomMovement(this);
+    things.add(new RandomMovement(this));
     this.position = new Vector2D(rand.nextInt(50), rand.nextInt(50));
     this.addBehavior(new ContainedBehavior(minX, minY, maxX, maxY));
   }

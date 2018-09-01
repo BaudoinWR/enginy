@@ -1,6 +1,6 @@
 package com.woobadeau.tinyengine;
 public class Vector2D {
-  final int x, y;
+  public final int x, y;
 
   public Vector2D(int x, int y) {
     this.x = x;

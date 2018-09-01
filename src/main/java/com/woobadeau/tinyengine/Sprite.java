@@ -13,8 +13,8 @@ public class Sprite extends RectangularThing implements ThingMouseListener {
     }
 
     @Override
-    void draw(Graphics graphics) {
-        graphics.drawImage(image, position.x, position.y, Color.gray, TinyEngine.display);
+    protected void draw(Graphics graphics) {
+        graphics.drawImage(image, position.x, position.y, null, TinyEngine.display);
     }
 
     @Override
