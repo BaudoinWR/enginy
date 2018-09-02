@@ -3,7 +3,7 @@ package com.woobadeau.tinyengine;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Sprite extends RectangularThing implements ThingMouseListener {
+public class Sprite extends RectangularThing {
 
     protected Image image;
 
@@ -14,24 +14,25 @@ public class Sprite extends RectangularThing implements ThingMouseListener {
     }
 
     protected static BufferedImage resize(BufferedImage img, int newW, int newH) {
-        Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
-        BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
 
-        Graphics2D g2d = dimg.createGraphics();
-        g2d.drawImage(tmp, 0, 0, null);
+        Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+        BufferedImage result = new BufferedImage(Math.abs(newW), newH, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2d = result.createGraphics();
+        if (newW < 0) {
+            g2d.drawImage(tmp, -newW, 0, newW, newH,null);
+        }
+        else {
+            g2d.drawImage(tmp, 0,0,null);
+        }
         g2d.dispose();
 
-        return dimg;
+        return result;
     }
 
     @Override
     protected void draw(Graphics graphics) {
         graphics.drawImage(image, position.x, position.y, null, TinyEngine.display);
-    }
-
-    @Override
-    public void onClick() {
-        System.out.println("Image clicked");
     }
 
     public Sprite scale(int newW, int newH) {

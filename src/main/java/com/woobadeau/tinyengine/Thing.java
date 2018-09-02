@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 
 public abstract class Thing {
   protected Vector2D position = new Vector2D(0,0);
-  Shape shape;
+  protected Shape shape;
   protected int zIndex = 10;
   Set<Thing> things = new HashSet<>();
 

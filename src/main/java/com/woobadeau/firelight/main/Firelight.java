@@ -1,11 +1,11 @@
 package com.woobadeau.firelight.main;
 
 import com.woobadeau.firelight.ColorManager;
+import com.woobadeau.firelight.LightbugSprite;
 import com.woobadeau.firelight.WolfAnimation;
 import com.woobadeau.tinyengine.*;
 import com.woobadeau.tinyengine.main.SampleBackground;
 
-import javax.imageio.ImageIO;
 import java.io.IOException;
 
 public class Firelight {
@@ -15,5 +15,7 @@ public class Firelight {
         ColorManager.getInstance();
         new TinyEngine(1024, 740);
         new WolfAnimation();
+        new LightbugSprite();
+        new LightbugSprite();
     }
 }

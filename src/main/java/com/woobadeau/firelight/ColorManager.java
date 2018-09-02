@@ -6,7 +6,7 @@ import com.woobadeau.tinyengine.TinyEngine;
 import com.woobadeau.tinyengine.Vector2D;
 
 import java.awt.*;
-import java.util.Arrays;
+import java.awt.geom.Ellipse2D;
 import java.util.Date;
 
 public class ColorManager extends Thing implements ThingMouseListener {
@@ -16,14 +16,25 @@ public class ColorManager extends Thing implements ThingMouseListener {
     private long previousPeak = 0l;
     private boolean isGoingUp = true;
     private static ColorManager instance;
+    public static float wavelength = 780f;
+    public static boolean activated = true;
 
-    private ColorManager() {}
+    public static final int pinkRGB = rgbToInt(new int[]{255,154,254});
+
+
+    private ColorManager() {
+        this.shape = new Ellipse2D.Double(300, 640, 100, 100);
+    }
 
     public static ColorManager getInstance() {
         if (instance == null) {
             instance = new ColorManager();
         }
         return instance;
+    }
+
+    static int rgbToInt(int[] color) {
+        return (255 << 24) + ((color[0] & 0xFF) << 16) + ((color[1] & 0xFF) << 8) + (color[2] & 0xFF);
     }
 
     @Override
@@ -39,7 +50,7 @@ public class ColorManager extends Thing implements ThingMouseListener {
 
     @Override
     protected void update() {
-        if (TinyEngine.mouseDown) {
+        if (activated && TinyEngine.mouseDown) {
             updatePosition();
         }
     }
@@ -58,14 +69,12 @@ public class ColorManager extends Thing implements ThingMouseListener {
     }
 
     private void updateColor(long period) {
-        float wavelength = mapFloat(period, 55, 1000, 380, 780);
+        wavelength = mapFloat(period, 55, 1000, 380, 780);
         int[] rgb = getRgb(wavelength);
         color = new Color(rgb[0], rgb[1], rgb[2]);
-        System.out.println(Arrays.toString(rgb));
     }
 
-    private int[] getRgb(float wavelength) {
-
+    public static int[] getRgb(float wavelength) {
         float Gamma = 0.80f;
         float IntensityMax = 255;
         float factor, red, green, blue;
@@ -146,7 +155,12 @@ public class ColorManager extends Thing implements ThingMouseListener {
     private static float mapFloat(float init, float minSource, float maxSource, float minDest, float maxDest)
     {
         float i = (init - minSource) / (maxSource - minSource) * (maxDest - minDest) + minDest;
-        System.out.println(init+" to "+i);
         return i;
+    }
+
+    @Override
+    public void onClick() {
+        System.out.println("activation switch");
+        activated = !activated;
     }
 }
