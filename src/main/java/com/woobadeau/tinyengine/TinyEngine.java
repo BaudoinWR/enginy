@@ -116,7 +116,7 @@ public class TinyEngine {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-      propagate(ThingMouseListener::onClick);
+      //propagate(ThingMouseListener::onClick);
     }
 
     @Override
@@ -127,6 +127,7 @@ public class TinyEngine {
     @Override
     public void mouseReleased(MouseEvent e) {
       mouseDown = false;
+      propagate(ThingMouseListener::onClick);
     }
 
     @Override

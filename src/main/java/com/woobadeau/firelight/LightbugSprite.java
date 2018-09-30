@@ -1,6 +1,7 @@
 package com.woobadeau.firelight;
 
 import com.woobadeau.tinyengine.Sprite;
+import com.woobadeau.tinyengine.TinyEngine;
 import com.woobadeau.tinyengine.Vector2D;
 
 import javax.imageio.ImageIO;
@@ -37,7 +38,13 @@ public class LightbugSprite extends Sprite {
     @Override
     protected void update() {
         if (Math.abs(ColorManager.wavelength - wavelength) < 10) {
-            System.out.println("FOUND");
+            ColorManager.activated = false;
+            TinyEngine.remove(this);
+            try {
+                new LightbugSprite();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
