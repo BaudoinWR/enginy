@@ -25,7 +25,7 @@ public class ScrollingBackground extends Sprite {
 
     void init() {
         Movement movement = new Movement(this);
-        speed = speed * getzIndex();
+        speed = speed * getZIndex();
         movement.speed = new Vector2D(-speed, 0);
         getThings().add(movement);
     }
@@ -34,8 +34,8 @@ public class ScrollingBackground extends Sprite {
     public void update() {
         int rightBorder = this.getPosition().x + getImage().getWidth(null);
         if (!duplicated && rightBorder < TinyEngine.screen.getWidth() + speed) {
-            ScrollingBackground scrollingBackground = new ScrollingBackground((BufferedImage) this.getImage(), getzIndex());
-            scrollingBackground.setPosition(new Vector2D(rightBorder, 0));
+            ScrollingBackground scrollingBackground = new ScrollingBackground((BufferedImage) this.getImage(), getZIndex());
+            scrollingBackground.move(new Vector2D(rightBorder, 0));
             duplicated = true;
         }
 

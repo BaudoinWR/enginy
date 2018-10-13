@@ -3,6 +3,7 @@ import com.woobadeau.tinyengine.things.Thing;
 import com.woobadeau.tinyengine.things.ThingMouseListener;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
 public class MovingDot extends Thing implements ThingMouseListener {
@@ -10,7 +11,7 @@ public class MovingDot extends Thing implements ThingMouseListener {
 
   public MovingDot(int minX, int minY, int maxX, int maxY) {
     getThings().add(new RandomMovement(this));
-    this.setPosition(new Vector2D(rand.nextInt(50), rand.nextInt(50)));
+    this.move(new Vector2D(rand.nextInt(50), rand.nextInt(50)));
     this.addBehavior(new ContainedBehavior(minX, minY, maxX, maxY));
   }
 

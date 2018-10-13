@@ -19,11 +19,16 @@ public class Sprite extends RectangularThing {
     @Override
     public void draw(Graphics graphics) {
         graphics.drawImage(getImage(), getPosition().x, getPosition().y, null, TinyEngine.display);
+        if (TinyEngine.isDebug()) {
+            graphics.setColor(Color.GREEN);
+            ((Graphics2D)graphics).draw(getShape());
+        }
+
     }
 
     public Sprite scale(int newW, int newH) {
         image = ImageTools.resize((BufferedImage) getImage(), newW, newH);
-        this.setShape(new Rectangle(0,0, getImage().getWidth(null), getImage().getHeight(null)));
+        this.setShape(new Rectangle(this.getShape().getBounds().x,this.getShape().getBounds().y, getImage().getWidth(null), getImage().getHeight(null)));
         return this;
     }
 

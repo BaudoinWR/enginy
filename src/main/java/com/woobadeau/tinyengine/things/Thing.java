@@ -15,6 +15,8 @@ public abstract class Thing {
   private Shape shape;
   private int zIndex = 10;
   private Set<Thing> things = new HashSet<>();
+  private boolean visible = true;
+
 
   public Thing() {
     TinyEngine.register(this);
@@ -25,15 +27,16 @@ public abstract class Thing {
   protected void addBehavior(Consumer<Thing> behavior) {
     this.getBehaviors().add(behavior);
   }
-  public int getZIndex() { return getzIndex(); }
   protected void onCreate() {}
   public void beforeUpdate() {}
   public void update() {}
   public void afterUpdate() {}
-  final protected void destroy() {
+  final public void destroy() {
     TinyEngine.remove(this);
     getThings().forEach(TinyEngine::remove);
     getThings().forEach(Thing::destroy);
+    getThings().clear();
+    behaviors.clear();
   }
   public void draw(Graphics graphics) {}
   public final void applyBehaviors() {
@@ -45,7 +48,9 @@ public abstract class Thing {
     updateShape();
   }
 
-  void updateShape() {}
+  void updateShape() {
+
+  }
 
   public Vector2D getPosition() {
     return position;
@@ -55,7 +60,7 @@ public abstract class Thing {
     return shape;
   }
 
-  public int getzIndex() {
+  public int getZIndex() {
     return zIndex;
   }
 
@@ -67,16 +72,20 @@ public abstract class Thing {
     return behaviors;
   }
 
-  protected void setPosition(Vector2D vector2D) {
-    this.position = vector2D;
-  }
-
   protected void setShape(Shape shape) {
     this.shape = shape;
   }
 
   protected void setZIndex(int zIndex) {
     this.zIndex = zIndex;
+  }
+
+  public boolean isVisible() {
+    return visible;
+  }
+
+  public void setVisible(boolean visible) {
+    this.visible = visible;
   }
 }
  

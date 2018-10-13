@@ -26,6 +26,7 @@ public class TinyEngine {
   public static int width;
   public static boolean mouseDown = false;
   private static int height;
+  public static boolean debug = false;
 
   public TinyEngine(int width, int height) {
     EventQueue.invokeLater(() -> {
@@ -53,24 +54,24 @@ public class TinyEngine {
   }
 
   static void tick() {
-    List<Thing> collect = things.stream().sorted(Comparator.comparing(Thing::getZIndex)).collect(Collectors.toList());
+    List<Thing> allThings = things.stream().sorted(Comparator.comparing(Thing::getZIndex)).collect(Collectors.toList());
     mousePosition = display.getMousePosition();
-    applyActions(collect);
-    draw(collect);
+    applyActions(allThings);
+    draw(allThings);
     display.repaint();
   }
 
-  private static void draw(List<Thing> collect) {
-    screen = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-    Graphics2D graphics = screen.createGraphics();
-    collect.forEach(thing -> thing.draw(graphics));
+  private static void applyActions(List<Thing> allThings) {
+    allThings.forEach(Thing::beforeUpdate);
+    allThings.forEach(Thing::update);
+    allThings.forEach(Thing::afterUpdate);
+    allThings.forEach(Thing::applyBehaviors);
   }
 
-  private static void applyActions(List<Thing> collect) {
-    collect.forEach(Thing::beforeUpdate);
-    collect.forEach(Thing::update);
-    collect.forEach(Thing::afterUpdate);
-    collect.forEach(Thing::applyBehaviors);
+  private static void draw(List<Thing> allThings) {
+    screen = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+    Graphics2D graphics = screen.createGraphics();
+    allThings.forEach(thing -> { if (thing.isVisible()) thing.draw(graphics); });
   }
 
   public static void register(Thing thing) {
@@ -83,6 +84,10 @@ public class TinyEngine {
 
   public static Dimension getSize() {
     return display.getSize();
+  }
+
+  public static boolean isDebug() {
+    return debug;
   }
 
   private static class Display extends JPanel implements MouseListener {
