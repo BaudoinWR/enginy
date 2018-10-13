@@ -1,4 +1,4 @@
-package com.woobadeau.tinyengine;
+package com.woobadeau.tinyengine.things;
 
 import java.awt.event.MouseEvent;
 

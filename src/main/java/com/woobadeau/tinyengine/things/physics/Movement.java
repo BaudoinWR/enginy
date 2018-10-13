@@ -1,6 +1,8 @@
-package com.woobadeau.tinyengine; /**
+package com.woobadeau.tinyengine.things.physics; /**
  * Paquet de définition
  **/
+
+import com.woobadeau.tinyengine.things.Thing;
 
 /**
  * Description: Merci de donner une description du service rendu par cette interface
@@ -14,13 +16,13 @@ public class Movement extends Thing {
   }
 
   @Override
-  int getZIndex() {
+  public int getZIndex() {
     return -1;
   }
 
   @Override
   public void update() {
-    object.move(object.position.add(speed));
+    object.move(object.getPosition().add(speed));
   }
 }
  

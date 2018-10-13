@@ -1,4 +1,4 @@
-package com.woobadeau.tinyengine;
+package com.woobadeau.tinyengine.things.sprites;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,7 +11,7 @@ public class AnimatedSprite extends Sprite {
         super(spriteSheet, zIndex);
         steps = split(spriteSheet, rows,columns);
         image = steps[0];
-        shape = new Rectangle(600,0,image.getWidth(null), image.getHeight(null));
+        setShape(new Rectangle(600,0, getImage().getWidth(null), getImage().getHeight(null)));
     }
 
     private BufferedImage[] split(BufferedImage spriteSheet, int rows, int columns) {
@@ -27,7 +27,7 @@ public class AnimatedSprite extends Sprite {
     }
 
     @Override
-    protected void update() {
+    public void update() {
         image = steps[currentState];
         currentState = (currentState+1) % steps.length;
     }
@@ -35,7 +35,7 @@ public class AnimatedSprite extends Sprite {
     @Override
     public Sprite scale(int newW, int newH) {
         for (int i = 0; i < steps.length; i++) {
-            steps[i] = resize(steps[i], newW, newH);
+            steps[i] = ImageTools.resize(steps[i], newW, newH);
         }
         return this;
     }

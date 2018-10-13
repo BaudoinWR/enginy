@@ -1,11 +1,12 @@
 package com.woobadeau.tinyengine;
 
 import com.woobadeau.tinyengine.main.Dotty;
+import com.woobadeau.tinyengine.things.Thing;
+import com.woobadeau.tinyengine.things.ThingMouseListener;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
@@ -109,7 +110,7 @@ public class TinyEngine {
     private void propagate(Consumer<ThingMouseListener> action) {
       things.stream()
               .filter(t -> t instanceof ThingMouseListener)
-              .filter(t -> t.shape != null && t.shape.contains(mousePosition.x, mousePosition.y))
+              .filter(t -> t.getShape() != null && t.getShape().contains(mousePosition.x, mousePosition.y))
               .map(ThingMouseListener.class::cast)
               .forEach(action);
     }

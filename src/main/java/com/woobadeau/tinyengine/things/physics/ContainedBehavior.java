@@ -1,4 +1,6 @@
-package com.woobadeau.tinyengine;
+package com.woobadeau.tinyengine.things.physics;
+import com.woobadeau.tinyengine.things.Thing;
+
 import java.util.function.Consumer;
 
 public class ContainedBehavior implements Consumer<Thing>{
@@ -16,8 +18,8 @@ public class ContainedBehavior implements Consumer<Thing>{
   }
 
   public void accept(Thing thing) {
-    int x = thing.position.x;
-    int y = thing.position.y;
+    int x = thing.getPosition().x;
+    int y = thing.getPosition().y;
     if (x > maxX) {
       x = maxX;
     }

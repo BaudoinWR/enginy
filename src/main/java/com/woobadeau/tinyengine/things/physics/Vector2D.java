@@ -1,4 +1,4 @@
-package com.woobadeau.tinyengine;
+package com.woobadeau.tinyengine.things.physics;
 public class Vector2D {
   public final int x, y;
 

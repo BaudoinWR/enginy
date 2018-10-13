@@ -1,4 +1,6 @@
-package com.woobadeau.tinyengine;
+package com.woobadeau.tinyengine.things.physics;
+
+import com.woobadeau.tinyengine.things.Thing;
 
 public class RandomMovement extends Movement {
 

@@ -1,7 +1,8 @@
 package com.woobadeau.tinyengine.main;
 
-import com.woobadeau.tinyengine.*;
 import com.woobadeau.tinyengine.TinyEngine;
+import com.woobadeau.tinyengine.things.physics.MovingDot;
+import com.woobadeau.tinyengine.things.sprites.FollowSprite;
 
 import java.io.IOException;
 import javax.imageio.ImageIO;
