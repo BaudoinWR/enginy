@@ -2,6 +2,7 @@ package com.woobadeau.tinyengine;
 
 import com.woobadeau.tinyengine.main.Dotty;
 import com.woobadeau.tinyengine.things.Thing;
+import com.woobadeau.tinyengine.things.ThingMouseClickListener;
 import com.woobadeau.tinyengine.things.ThingMouseListener;
 
 import java.awt.*;
@@ -112,17 +113,17 @@ public class TinyEngine {
       g2d.dispose();
     }
 
-    private void propagate(Consumer<ThingMouseListener> action) {
+    private <T> void propagate(final Class<T> listenerClass, Consumer<T> action) {
       things.stream()
-              .filter(t -> t instanceof ThingMouseListener)
+              .filter(t -> listenerClass.isAssignableFrom(t.getClass()))
               .filter(t -> t.getShape() != null && t.getShape().contains(mousePosition.x, mousePosition.y))
-              .map(ThingMouseListener.class::cast)
+              .map(listenerClass::cast)
               .forEach(action);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-      //propagate(ThingMouseListener::onClick);
+      //propagate(ThingMouseClickListener::onClick);
     }
 
     @Override
@@ -133,7 +134,7 @@ public class TinyEngine {
     @Override
     public void mouseReleased(MouseEvent e) {
       mouseDown = false;
-      propagate(ThingMouseListener::onClick);
+      propagate(ThingMouseClickListener.class, ThingMouseClickListener::onClick);
     }
 
     @Override

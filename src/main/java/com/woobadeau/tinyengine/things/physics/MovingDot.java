@@ -1,12 +1,11 @@
 package com.woobadeau.tinyengine.things.physics;
 import com.woobadeau.tinyengine.things.Thing;
-import com.woobadeau.tinyengine.things.ThingMouseListener;
+import com.woobadeau.tinyengine.things.ThingMouseClickListener;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
-public class MovingDot extends Thing implements ThingMouseListener {
+public class MovingDot extends Thing implements ThingMouseClickListener {
   Random rand = new Random();
 
   public MovingDot(int minX, int minY, int maxX, int maxY) {
