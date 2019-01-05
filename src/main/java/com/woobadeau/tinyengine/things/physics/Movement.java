@@ -2,22 +2,18 @@ package com.woobadeau.tinyengine.things.physics;
 
 import com.woobadeau.tinyengine.things.Thing;
 
-public class Movement extends Thing {
-  public Vector2D speed = new Vector2D(0,0);
-  Thing object;
+import java.util.function.Consumer;
 
-  public Movement(Thing object) {
-    this.object = object;
+public class Movement implements Consumer<Thing> {
+  public Vector2D speed;
+
+  public Movement(Vector2D speed) {
+    this.speed = speed;
   }
 
   @Override
-  public int getZIndex() {
-    return -1;
-  }
-
-  @Override
-  public void update() {
-    object.move(object.getPosition().add(speed));
+  public void accept(Thing o) {
+    o.move(o.getPosition().add(speed));
   }
 }
  

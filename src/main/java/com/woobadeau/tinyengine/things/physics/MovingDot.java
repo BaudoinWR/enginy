@@ -9,8 +9,8 @@ public class MovingDot extends Thing implements ThingMouseClickListener {
   Random rand = new Random();
 
   public MovingDot(int minX, int minY, int maxX, int maxY) {
-    getThings().add(new RandomMovement(this));
     this.move(new Vector2D(rand.nextInt(50), rand.nextInt(50)));
+    this.addBehavior(new RandomMovement());
     this.addBehavior(new ContainedBehavior(minX, minY, maxX, maxY));
   }
 

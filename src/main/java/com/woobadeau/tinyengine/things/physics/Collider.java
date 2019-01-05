@@ -1,4 +1,4 @@
-package com.woobadeau.tinyengine.things.physics; 
+package com.woobadeau.tinyengine.things.physics;
 
 import com.woobadeau.tinyengine.things.Thing;
 

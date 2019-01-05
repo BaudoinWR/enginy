@@ -24,10 +24,7 @@ public class ScrollingBackground extends Sprite {
     }
 
     void init() {
-        Movement movement = new Movement(this);
-        speed = speed * getZIndex();
-        movement.speed = new Vector2D(-speed, 0);
-        getThings().add(movement);
+        this.addBehavior(new Movement(new Vector2D(-speed, 0)));
     }
 
     @Override

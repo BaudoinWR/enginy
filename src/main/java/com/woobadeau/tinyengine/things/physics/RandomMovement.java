@@ -4,18 +4,17 @@ import com.woobadeau.tinyengine.things.Thing;
 
 public class RandomMovement extends Movement {
 
-
   private double max = 10;
   private double min = -10;
 
-  public RandomMovement(Thing object) {
-    super(object);
+  public RandomMovement() {
+    super(new Vector2D(0, 0));
   }
 
   @Override
-  public void beforeUpdate() {
+  public void accept(Thing o) {
     speed = new Vector2D((int)getRandom(), (int)getRandom());
-    super.update();
+    super.accept(o);
   }
 
   private double getRandom() {
