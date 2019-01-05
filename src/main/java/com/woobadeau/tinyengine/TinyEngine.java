@@ -6,14 +6,12 @@ import com.woobadeau.tinyengine.things.ThingMouseClickListener;
 import com.woobadeau.tinyengine.things.ThingMouseListener;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -95,11 +93,20 @@ public class TinyEngine {
     return debug;
   }
 
-  private static class Display extends JPanel implements MouseListener, KeyListener {
+  public static void addKeyBinding(String key, Runnable action) {
+    display.getInputMap().put(KeyStroke.getKeyStroke(key), key);
+    display.getActionMap().put(key, new AbstractAction() {
+      @Override
+      public void actionPerformed(ActionEvent actionEvent) {
+        action.run();
+      }
+    });
+  }
+
+  private static class Display extends JPanel implements MouseListener {
 
     public Display() {
       this.addMouseListener(this);
-      this.addKeyListener(this);
       setOpaque(false);
     }
 
@@ -150,20 +157,6 @@ public class TinyEngine {
     public void mouseExited(MouseEvent e) {
     }
 
-    @Override
-    public void keyTyped(KeyEvent keyEvent) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent keyEvent) {
-      keysDown.add(keyEvent.getKeyCode());
-    }
-
-    @Override
-    public void keyReleased(KeyEvent keyEvent) {
-      keysDown.remove(keyEvent.getKeyCode());
-    }
   }
 
 }
