@@ -6,6 +6,8 @@ import com.woobadeau.tinyengine.things.ThingMouseClickListener;
 import com.woobadeau.tinyengine.things.ThingMouseListener;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -26,6 +28,8 @@ public class TinyEngine {
   public static Point mousePosition;
   public static int width;
   public static boolean mouseDown = false;
+  public static final Set<Integer> keysDown = new HashSet<>();
+
   private static int height;
   public static boolean debug = false;
 
@@ -91,10 +95,11 @@ public class TinyEngine {
     return debug;
   }
 
-  private static class Display extends JPanel implements MouseListener {
+  private static class Display extends JPanel implements MouseListener, KeyListener {
 
     public Display() {
       this.addMouseListener(this);
+      this.addKeyListener(this);
       setOpaque(false);
     }
 
@@ -145,6 +150,20 @@ public class TinyEngine {
     public void mouseExited(MouseEvent e) {
     }
 
+    @Override
+    public void keyTyped(KeyEvent keyEvent) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent keyEvent) {
+      keysDown.add(keyEvent.getKeyCode());
+    }
+
+    @Override
+    public void keyReleased(KeyEvent keyEvent) {
+      keysDown.remove(keyEvent.getKeyCode());
+    }
   }
 
 }
