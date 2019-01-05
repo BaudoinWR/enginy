@@ -1,13 +1,11 @@
 package com.woobadeau.tinyengine.things.physics;
 
+
 import com.woobadeau.tinyengine.things.Thing;
 
-public class Collider extends Thing {
-  private final Thing object;
+public interface Collider {
 
-  public Collider(Thing object) {
-    this.object = object;
-  }
+  void collides(Thing other);
 
 }
 

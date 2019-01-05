@@ -87,5 +87,7 @@ public abstract class Thing {
   public void setVisible(boolean visible) {
     this.visible = visible;
   }
+
+  public void collides(Thing thing) {}
 }
  
