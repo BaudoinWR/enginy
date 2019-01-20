@@ -5,10 +5,12 @@ import com.woobadeau.tinyengine.things.Halo;
 import com.woobadeau.tinyengine.things.physics.FollowBehavior;
 import com.woobadeau.tinyengine.things.physics.FollowMouseBehavior;
 import com.woobadeau.tinyengine.things.physics.MovingDot;
+import com.woobadeau.tinyengine.things.ui.swing.SwingUIInterfaceProvider;
 
 public class Dotty {
   public static void main(String[] args) {
-    new TinyEngine(600, 600, () -> {}).start();
+    new TinyEngine(600, 600, () -> {
+    }, new SwingUIInterfaceProvider()).start();
     Halo halo = new Halo(255, 155, 0, 100);
     MovingDot movingDot = new MovingDot(50, 50, 500, 500);
     halo.getBehaviors().add(new FollowBehavior(movingDot));

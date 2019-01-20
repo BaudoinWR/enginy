@@ -1,8 +1,8 @@
 package com.woobadeau.tinyengine.things.physics;
 import com.woobadeau.tinyengine.things.Thing;
 import com.woobadeau.tinyengine.things.ThingMouseClickListener;
+import com.woobadeau.tinyengine.things.ui.Display;
 
-import java.awt.*;
 import java.util.Random;
 
 public class MovingDot extends Thing implements ThingMouseClickListener {
@@ -15,9 +15,9 @@ public class MovingDot extends Thing implements ThingMouseClickListener {
   }
 
   @Override
-  public void draw(Graphics graphics) {
-    graphics.setColor(Color.RED);
-    graphics.drawOval(this.getPosition().x, this.getPosition().y, 5, 5);
+  public void draw(Display display) {
+    display.setColor(display.getRed());
+    display.drawOval(this.getPosition().x, this.getPosition().y, 5, 5);
   }
 
   @Override

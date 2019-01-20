@@ -1,6 +1,7 @@
 package com.woobadeau.tinyengine.things.sprites;
 
-import java.awt.*;
+import com.woobadeau.tinyengine.TinyEngine;
+
 import java.awt.image.BufferedImage;
 
 public class AnimatedSprite extends Sprite {
@@ -11,7 +12,7 @@ public class AnimatedSprite extends Sprite {
         super(spriteSheet, zIndex);
         steps = split(spriteSheet, rows,columns);
         image = steps[0];
-        setShape(new Rectangle(600,0, getImage().getWidth(null), getImage().getHeight(null)));
+        setShape(TinyEngine.uiInterfaceProvider.getRectangle(600,0, getImage().getWidth(null), getImage().getHeight(null)));
     }
 
     private BufferedImage[] split(BufferedImage spriteSheet, int rows, int columns) {

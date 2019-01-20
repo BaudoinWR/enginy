@@ -2,8 +2,9 @@ package com.woobadeau.tinyengine.things;
 
 import com.woobadeau.tinyengine.TinyEngine;
 import com.woobadeau.tinyengine.things.physics.Vector2D;
+import com.woobadeau.tinyengine.things.ui.Display;
+import com.woobadeau.tinyengine.things.ui.Shape;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +39,7 @@ public abstract class Thing {
     getThings().clear();
     behaviors.clear();
   }
-  public void draw(Graphics graphics) {}
+  public void draw(Display display) {}
   public final void applyBehaviors() {
     getBehaviors().forEach(consumer -> consumer.accept(this));
   }

@@ -2,20 +2,20 @@ package com.woobadeau.tinyengine;
 
 import com.woobadeau.tinyengine.main.Dotty;
 import com.woobadeau.tinyengine.things.Thing;
-import com.woobadeau.tinyengine.things.ThingMouseClickListener;
 import com.woobadeau.tinyengine.things.physics.Collider;
+import com.woobadeau.tinyengine.things.physics.Vector2D;
+import com.woobadeau.tinyengine.things.ui.Display;
+import com.woobadeau.tinyengine.things.ui.UIInterfaceProvider;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.util.*;
+
+import javax.swing.Timer;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import javax.swing.*;
-import javax.swing.Timer;
 
 public class TinyEngine {
   private static Logger logger = Logger.getLogger(Dotty.class.getName());
@@ -23,9 +23,8 @@ public class TinyEngine {
   private static final Set<Thing> allThingsCollidable = new HashSet<>();
   private static final Set<Thing> thingsToBeRemoved = new HashSet<>();
 
-  public static Display display = new Display();
-  public static BufferedImage screen = new BufferedImage(600, 600, BufferedImage.TYPE_INT_ARGB);
-  public static Point mousePosition;
+  public static Display display;
+  public static Vector2D mousePosition;
   public static int width;
   private static int height;
   public static boolean mouseDown = false;
@@ -34,26 +33,14 @@ public class TinyEngine {
   private static boolean restart = false;
   private static Timer timer;
   private Runnable initialization;
+  public static UIInterfaceProvider uiInterfaceProvider;
 
-  public TinyEngine(int width, int height, Runnable initialization) {
-    this.initialization = initialization;
-    EventQueue.invokeLater(() -> {
+  public TinyEngine(int width, int height, Runnable initialization, UIInterfaceProvider uiInterfaceProvider) {
       TinyEngine.width = width;
       TinyEngine.height = height;
-      try {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-      } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-        logger.log(Level.SEVERE, "Error", ex);
-      }
-
-      JFrame frame = new JFrame("Testing");
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setLayout(new BorderLayout());
-      frame.add(display);
-      frame.pack();
-      frame.setLocationRelativeTo(null);
-      frame.setVisible(true);
-    });
+      this.initialization = initialization;
+    TinyEngine.uiInterfaceProvider = uiInterfaceProvider;
+    display = uiInterfaceProvider.initDisplay(width, height);
   }
 
   public void restart() {
@@ -77,7 +64,7 @@ public class TinyEngine {
 
   void tick() {
     List<Thing> allThings = things.stream().sorted(Comparator.comparing(Thing::getZIndex)).collect(Collectors.toList());
-    mousePosition = display.getMousePosition();
+    mousePosition = display.getMousePositionVector();
     applyActions(allThings);
     draw(allThings);
     display.repaint();
@@ -105,9 +92,7 @@ public class TinyEngine {
   }
 
   private static void draw(List<Thing> allThings) {
-    screen = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-    Graphics2D graphics = screen.createGraphics();
-    allThings.forEach(thing -> { if (thing.isVisible()) thing.draw(graphics); });
+    allThings.forEach(thing -> { if (thing.isVisible()) thing.draw(display); });
   }
 
   public static void register(Thing thing) {
@@ -121,79 +106,22 @@ public class TinyEngine {
     thingsToBeRemoved.add(thing);
   }
 
-  public static Dimension getSize() {
-    return display.getSize();
-  }
-
   public static boolean isDebug() {
     return debug;
   }
 
   public static void addKeyBinding(String key, Runnable action) {
-    display.getInputMap().put(KeyStroke.getKeyStroke(key), key);
-    display.getActionMap().put(key, new AbstractAction() {
-      @Override
-      public void actionPerformed(ActionEvent actionEvent) {
-        action.run();
-      }
-    });
+    display.addKeyBinding(key, action);
   }
 
-  private static class Display extends JPanel implements MouseListener {
-
-    public Display() {
-      this.addMouseListener(this);
-      setOpaque(false);
-    }
-
-    @Override
-    public Dimension getPreferredSize() {
-      return new Dimension(width, height);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-      super.paintComponent(g);
-      Graphics2D g2d = (Graphics2D) g.create();
-      int x = (getWidth() - screen.getWidth()) / 2;
-      int y = (getHeight() - screen.getHeight()) / 2;
-      g2d.drawImage(screen, x, y, this);
-      g2d.dispose();
-    }
-
-    private <T> void propagate(final Class<T> listenerClass, Consumer<T> action) {
-      things.stream()
-              .filter(t -> listenerClass.isAssignableFrom(t.getClass()))
-              .filter(t -> t.getShape() != null && t.getShape().contains(mousePosition.x, mousePosition.y))
-              .map(listenerClass::cast)
-              .forEach(action);
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-      //propagate(ThingMouseClickListener::onClick);
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-      mouseDown = true;
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-      mouseDown = false;
-      propagate(ThingMouseClickListener.class, ThingMouseClickListener::onClick);
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-    }
-
+  public static <T> void propagate(final Class<T> listenerClass, Consumer<T> action) {
+    things.stream()
+            .filter(t -> listenerClass.isAssignableFrom(t.getClass()))
+            .filter(t -> t.getShape() != null && t.getShape().contains(mousePosition.x, mousePosition.y))
+            .map(listenerClass::cast)
+            .forEach(action);
   }
+
 
 }
  

@@ -1,6 +1,7 @@
 package com.woobadeau.tinyengine.things;
 
 import com.woobadeau.tinyengine.TinyEngine;
+import com.woobadeau.tinyengine.things.ui.Display;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -23,7 +24,7 @@ public class Halo extends Thing {
         this.blue = blue;
         this.maxSize = size;
         this.growthRate = growthRate;
-        this.setShape(new Ellipse2D.Float(getPosition().x   , getPosition().y, 100, 100));
+        this.setShape(TinyEngine.uiInterfaceProvider.getCircle(getPosition().x   , getPosition().y, 100, 100));
     }
 
     public Halo(int red, int green, int blue, int size) {
@@ -39,20 +40,8 @@ public class Halo extends Thing {
     }
 
     @Override
-    public void draw(Graphics graphics) {
-        Color colors[] = { new Color(red, green, blue,150),
-                new Color(red,green,blue,100),
-                new Color(red,green,blue,25),
-                new Color(red,green,blue,0),
-        };
-        float fractions[] = { 0.0f, 0.2f, 0.6f, 1.0f };
-
-        RadialGradientPaint paint =
-                new RadialGradientPaint(new Point(getPosition().x, getPosition().y), currentSize, fractions, colors);
-        ((Graphics2D)graphics).setPaint(paint);
-
-        ((Graphics2D)graphics).fill(new Rectangle(TinyEngine.getSize()));
-        super.draw(graphics);
+    public void draw(Display display) {
+        display.drawHalo(red, green, blue, getPosition().x, getPosition().y, currentSize);
 
         if (growing) {
             currentSize+=growthRate;
@@ -67,5 +56,7 @@ public class Halo extends Thing {
         }
 
     }
+
+
 
 }

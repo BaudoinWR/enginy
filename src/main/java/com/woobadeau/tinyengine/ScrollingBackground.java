@@ -30,7 +30,7 @@ public class ScrollingBackground extends Sprite {
     @Override
     public void update() {
         int rightBorder = this.getPosition().x + getImage().getWidth(null);
-        if (!duplicated && rightBorder < TinyEngine.screen.getWidth() + speed) {
+        if (!duplicated && rightBorder < TinyEngine.width + speed) {
             ScrollingBackground scrollingBackground = new ScrollingBackground((BufferedImage) this.getImage(), getZIndex());
             scrollingBackground.move(new Vector2D(rightBorder, 0));
             duplicated = true;

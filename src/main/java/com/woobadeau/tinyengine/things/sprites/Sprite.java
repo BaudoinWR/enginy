@@ -2,8 +2,10 @@ package com.woobadeau.tinyengine.things.sprites;
 
 import com.woobadeau.tinyengine.things.RectangularThing;
 import com.woobadeau.tinyengine.TinyEngine;
+import com.woobadeau.tinyengine.things.ui.Display;
 
-import java.awt.*;
+import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class Sprite extends RectangularThing {
@@ -11,24 +13,24 @@ public class Sprite extends RectangularThing {
     protected Image image;
 
     public Sprite(BufferedImage image, int zIndex) {
-        super(new Rectangle(0,0,image.getWidth(null), image.getHeight(null)));
+        super(TinyEngine.uiInterfaceProvider.getRectangle(0,0,image.getWidth(null), image.getHeight(null)));
         this.image = image;
         this.setZIndex(zIndex);
     }
 
     @Override
-    public void draw(Graphics graphics) {
-        graphics.drawImage(getImage(), getPosition().x, getPosition().y, null, TinyEngine.display);
+    public void draw(Display display) {
+        display.drawImage(getImage(), getPosition().x, getPosition().y, TinyEngine.display);
         if (TinyEngine.isDebug()) {
-            graphics.setColor(Color.GREEN);
-            ((Graphics2D)graphics).draw(getShape());
+            display.setColor(display.getGreen());
+            display.draw(getShape());
         }
 
     }
 
     public Sprite scale(int newW, int newH) {
         image = ImageTools.resize((BufferedImage) getImage(), newW, newH);
-        this.setShape(new Rectangle(this.getShape().getBounds().x,this.getShape().getBounds().y, getImage().getWidth(null), getImage().getHeight(null)));
+        this.setShape(TinyEngine.uiInterfaceProvider.getRectangle(this.getShape().getBounds().getX(),this.getShape().getBounds().getY(), getImage().getWidth(null), getImage().getHeight(null)));
         return this;
     }
 
