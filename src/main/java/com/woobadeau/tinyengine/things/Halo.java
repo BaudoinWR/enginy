@@ -1,10 +1,8 @@
 package com.woobadeau.tinyengine.things;
 
 import com.woobadeau.tinyengine.TinyEngine;
+import com.woobadeau.tinyengine.things.ui.Color;
 import com.woobadeau.tinyengine.things.ui.Display;
-
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 public class Halo extends Thing {
 

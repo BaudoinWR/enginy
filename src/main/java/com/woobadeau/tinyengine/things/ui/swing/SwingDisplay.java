@@ -2,6 +2,7 @@ package com.woobadeau.tinyengine.things.ui.swing;
 
 import com.woobadeau.tinyengine.TinyEngine;
 import com.woobadeau.tinyengine.things.ui.Font;
+import com.woobadeau.tinyengine.things.ui.Image;
 import com.woobadeau.tinyengine.things.ui.Shape;
 import com.woobadeau.tinyengine.things.ThingMouseClickListener;
 import com.woobadeau.tinyengine.things.physics.Vector2D;
@@ -20,7 +21,6 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.RadialGradientPaint;
 import java.awt.Rectangle;
@@ -92,7 +92,7 @@ public class SwingDisplay extends JPanel implements Display, MouseListener {
 
     @Override
     public void drawImage(Image image, int x, int y, Display display) {
-        graphics.drawImage(image, x, y, null, this);
+        graphics.drawImage((java.awt.Image) image, x, y, null, this);
     }
 
     @Override
@@ -107,18 +107,13 @@ public class SwingDisplay extends JPanel implements Display, MouseListener {
     }
 
     @Override
-    public com.woobadeau.tinyengine.things.ui.Color getGreen() {
-        return new AWTColor(Color.GREEN.getRGB());
-    }
-
-    @Override
     public void setFont(Font font) {
-        screen.getGraphics().setFont((java.awt.Font) font);
+        graphics.setFont((java.awt.Font) font);
     }
 
     @Override
     public void drawString(String string, int x, int y) {
-        screen.getGraphics().drawString(string, x, y);
+        graphics.drawString(string, x, y);
     }
 
     @Override
@@ -136,11 +131,6 @@ public class SwingDisplay extends JPanel implements Display, MouseListener {
         graphics.setPaint(paint);
 
         graphics.fill(new Rectangle(this.width, this.height));
-    }
-
-    @Override
-    public com.woobadeau.tinyengine.things.ui.Color getRed() {
-        return new AWTColor(Color.RED.getRGB());
     }
 
     @Override
@@ -166,6 +156,11 @@ public class SwingDisplay extends JPanel implements Display, MouseListener {
             return new Vector2D(mousePosition.x, mousePosition.y);
         }
         return null;
+    }
+
+    @Override
+    public void fillOval(int x, int y, int width, int height) {
+        graphics.fillOval(x, y, width, height);
     }
 
     private static Logger logger = Logger.getLogger(UIInterfaceProvider.class.getName());

@@ -1,10 +1,25 @@
 package com.woobadeau.tinyengine.things.ui;
 
-public abstract class UIInterfaceProvider {
+import java.io.IOException;
 
-    public abstract Display initDisplay(int width, int height);
+public interface UIInterfaceProvider {
 
-    public abstract Shape getRectangle(int x, int y, int width, int height);
+    Display initDisplay(int width, int height);
 
-    public abstract Shape getCircle(int x, int y, int i, int i1);
+    Shape getRectangle(int x, int y, int width, int height);
+
+    Shape getCircle(int x, int y, int i, int i1);
+
+    Image resize(Image img, int newW, int newH);
+
+    Image getImage(String resource) throws IOException;
+
+    Font getFont(String name, int style, int size);
+
+    Color getRed();
+
+    Color getGreen();
+
+    Color getColor(int r, int g, int b);
+
 }

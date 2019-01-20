@@ -36,11 +36,11 @@ public class TinyEngine {
   public static UIInterfaceProvider uiInterfaceProvider;
 
   public TinyEngine(int width, int height, Runnable initialization, UIInterfaceProvider uiInterfaceProvider) {
-      TinyEngine.width = width;
-      TinyEngine.height = height;
-      this.initialization = initialization;
+    TinyEngine.width = width;
+    TinyEngine.height = height;
     TinyEngine.uiInterfaceProvider = uiInterfaceProvider;
-    display = uiInterfaceProvider.initDisplay(width, height);
+    TinyEngine.display = uiInterfaceProvider.initDisplay(width, height);
+    this.initialization = initialization;
   }
 
   public void restart() {
