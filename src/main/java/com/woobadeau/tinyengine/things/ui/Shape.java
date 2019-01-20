@@ -1,21 +1,19 @@
 package com.woobadeau.tinyengine.things.ui;
 
 public interface Shape {
-    Integer getX();
+    double getX();
 
-    Integer getY();
+    double getY();
 
-    Shape getBounds();
+    double getWidth();
 
-    Number getWidth();
-
-    Number getHeight();
+    double getHeight();
 
     void setFrame(int x, int y, Number width, Number height);
 
-    boolean intersects(Shape bounds);
-
     boolean contains(int x, int y);
+
+    boolean intersects(Shape shape);
 
     double getCenterX();
 

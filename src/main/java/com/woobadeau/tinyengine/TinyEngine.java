@@ -87,7 +87,7 @@ public class TinyEngine {
   }
 
   private static void testCollision(Thing t) {
-    allThingsCollidable.stream().filter(thing -> thing != t && t.getShape().getBounds().intersects(thing.getShape().getBounds()))
+    allThingsCollidable.stream().filter(thing -> thing != t && t.getShape().intersects(thing.getShape()))
     .forEach(((Collider) t)::collides);
   }
 

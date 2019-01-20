@@ -6,10 +6,10 @@ import com.woobadeau.tinyengine.things.physics.Vector2D;
 public class Text extends Thing {
 
     protected String string;
-    private Object font;
-    private Object color;
+    private Font font;
+    private Color color;
 
-    public Text(String string, Object font, Object color, Vector2D position) {
+    public Text(String string, Font font, Color color, Vector2D position) {
         this.string = string;
         this.font = font;
         this.color = color;
@@ -22,4 +22,5 @@ public class Text extends Thing {
         display.setColor(color);
         display.drawString(string, getPosition().x, getPosition().y);
     }
+
 }

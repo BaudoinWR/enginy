@@ -12,12 +12,12 @@ public class SwingUIInterfaceProvider extends UIInterfaceProvider {
 
     @Override
     public Shape getRectangle(int x, int y, int width, int height) {
-        return new Rectangle(x, y, width, height);
+        return new AWTRectangle(x, y, width, height);
     }
 
     @Override
     public Shape getCircle(int x, int y, int i, int i1) {
-        return new Circle(x, y, 100, 100);
+        return new AWTCircle(x, y, 100, 100);
     }
 
 }

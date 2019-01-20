@@ -15,7 +15,7 @@ public class FollowBehavior implements Consumer<Thing> {
     @Override
     public void accept(Thing thing) {
         if (toFollow.getShape() != null) {
-            thing.move(new Vector2D((int) toFollow.getShape().getBounds().getCenterX(), (int) toFollow.getShape().getBounds().getCenterY()));
+            thing.move(new Vector2D((int) toFollow.getShape().getCenterX(), (int) toFollow.getShape().getCenterY()));
         }
         else {
             thing.move(toFollow.getPosition());

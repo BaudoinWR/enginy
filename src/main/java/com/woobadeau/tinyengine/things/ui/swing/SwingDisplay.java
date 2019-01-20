@@ -1,6 +1,7 @@
 package com.woobadeau.tinyengine.things.ui.swing;
 
 import com.woobadeau.tinyengine.TinyEngine;
+import com.woobadeau.tinyengine.things.ui.Font;
 import com.woobadeau.tinyengine.things.ui.Shape;
 import com.woobadeau.tinyengine.things.ThingMouseClickListener;
 import com.woobadeau.tinyengine.things.physics.Vector2D;
@@ -17,7 +18,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -96,8 +96,8 @@ public class SwingDisplay extends JPanel implements Display, MouseListener {
     }
 
     @Override
-    public void setColor(Object color) {
-        graphics.setColor((Color) color);
+    public void setColor(com.woobadeau.tinyengine.things.ui.Color color) {
+        graphics.setColor((java.awt.Color) color);
 
     }
 
@@ -107,13 +107,13 @@ public class SwingDisplay extends JPanel implements Display, MouseListener {
     }
 
     @Override
-    public Object getGreen() {
-        return Color.GREEN;
+    public com.woobadeau.tinyengine.things.ui.Color getGreen() {
+        return new AWTColor(Color.GREEN.getRGB());
     }
 
     @Override
-    public void setFont(Object font) {
-        screen.getGraphics().setFont((Font) font);
+    public void setFont(Font font) {
+        screen.getGraphics().setFont((java.awt.Font) font);
     }
 
     @Override
@@ -139,8 +139,8 @@ public class SwingDisplay extends JPanel implements Display, MouseListener {
     }
 
     @Override
-    public Object getRed() {
-        return Color.RED;
+    public com.woobadeau.tinyengine.things.ui.Color getRed() {
+        return new AWTColor(Color.RED.getRGB());
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.woobadeau.tinyengine.TinyEngine;
 import com.woobadeau.tinyengine.things.ui.Display;
 
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class Sprite extends RectangularThing {
@@ -30,7 +29,7 @@ public class Sprite extends RectangularThing {
 
     public Sprite scale(int newW, int newH) {
         image = ImageTools.resize((BufferedImage) getImage(), newW, newH);
-        this.setShape(TinyEngine.uiInterfaceProvider.getRectangle(this.getShape().getBounds().getX(),this.getShape().getBounds().getY(), getImage().getWidth(null), getImage().getHeight(null)));
+        this.setShape(TinyEngine.uiInterfaceProvider.getRectangle((int)this.getShape().getX(),(int) this.getShape().getY(), getImage().getWidth(null), getImage().getHeight(null)));
         return this;
     }
 
