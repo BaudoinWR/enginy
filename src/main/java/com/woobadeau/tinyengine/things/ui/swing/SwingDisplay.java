@@ -92,7 +92,7 @@ public class SwingDisplay extends JPanel implements Display, MouseListener {
 
     @Override
     public void drawImage(Image image, int x, int y, Display display) {
-        graphics.drawImage((java.awt.Image) image, x, y, null, this);
+        graphics.drawImage(((AWTImage) image).getImage(), x, y, null, this);
     }
 
     @Override

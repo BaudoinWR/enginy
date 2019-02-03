@@ -30,10 +30,10 @@ public class SwingUIInterfaceProvider implements UIInterfaceProvider {
 
     @Override
     public Image resize(Image img, int newW, int newH) {
-        java.awt.Image tmp = ((java.awt.Image) img).getScaledInstance(newW, newH, java.awt.Image.SCALE_SMOOTH);
-        AWTImage result = new AWTImage(Math.abs(newW), newH, BufferedImage.TYPE_INT_ARGB);
+        java.awt.Image tmp = ((AWTImage) img).getImage().getScaledInstance(newW, newH, java.awt.Image.SCALE_SMOOTH);
+        AWTImage result = new AWTImage(Math.abs(newW), Math.abs(newH), BufferedImage.TYPE_INT_ARGB);
 
-        Graphics2D g2d = result.createGraphics();
+        Graphics2D g2d = result.getImage().createGraphics();
         if (newW < 0) {
             g2d.drawImage(tmp, -newW, 0, newW, newH,null);
         }
@@ -47,7 +47,7 @@ public class SwingUIInterfaceProvider implements UIInterfaceProvider {
 
     @Override
     public Image getImage(String resource) throws IOException {
-        return AWTImage.copyImage(ImageIO.read(SwingUIInterfaceProvider.class.getResourceAsStream(resource)));
+        return new AWTImage(ImageIO.read(SwingUIInterfaceProvider.class.getResourceAsStream(resource)));
     }
 
     @Override

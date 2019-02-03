@@ -9,29 +9,45 @@ import java.awt.image.WritableRaster;
 import java.lang.reflect.Field;
 import java.util.Hashtable;
 
-public class AWTImage extends BufferedImage implements Image {
+public class AWTImage implements Image {
+    private BufferedImage image;
+
     public AWTImage(int width, int height, int imageType) {
-        super(width, height, imageType);
+        image = new BufferedImage(width, height, imageType);
     }
 
-    public AWTImage(int width, int height, int imageType, IndexColorModel cm) {
-        super(width, height, imageType, cm);
-    }
 
-    public AWTImage(ColorModel cm, WritableRaster raster, boolean isRasterPremultiplied, Hashtable<?, ?> properties) {
-        super(cm, raster, isRasterPremultiplied, properties);
+    public AWTImage(BufferedImage image) {
+        this.image = image;
     }
 
     @Override
     public Image getSubImage(int x, int y, int width, int height) {
-        BufferedImage subimage = getSubimage(x, y, width, height);
-        return copyImage(subimage);
+        BufferedImage subimage = image.getSubimage(x, y, width, height);
+        return new AWTImage(subimage);
     }
 
-    static Image copyImage(BufferedImage original) {
-        ColorModel cm = original.getColorModel();
-        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
-        WritableRaster raster = original.copyData(original.getRaster());
-        return new AWTImage(cm, raster, isAlphaPremultiplied, null);
+    @Override
+    public int getWidth() {
+        return image.getWidth();
+    }
+
+    @Override
+    public int getHeight() {
+        return image.getHeight();
+    }
+
+    @Override
+    public int getRGB(int x, int y) {
+        return image.getRGB(x, y);
+    }
+
+    @Override
+    public void setRGB(int x, int y, int rgb) {
+        image.setRGB(x, y, rgb);
+    }
+
+    public BufferedImage getImage() {
+        return image;
     }
 }
