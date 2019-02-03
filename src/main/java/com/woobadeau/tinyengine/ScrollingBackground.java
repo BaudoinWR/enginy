@@ -7,11 +7,12 @@ import com.woobadeau.tinyengine.things.ui.Image;
 
 public class ScrollingBackground extends Sprite {
 
-    private int speed = 2;
+    private int speed;
     private boolean duplicated = false;
 
     public ScrollingBackground(Image image, int zIndex) {
         super(image, zIndex);
+        speed = zIndex;
         init();
     }
 
@@ -22,9 +23,9 @@ public class ScrollingBackground extends Sprite {
     @Override
     public void update() {
         int rightBorder = this.getPosition().x + getImage().getWidth();
-        if (!duplicated && rightBorder < TinyEngine.width + speed) {
+        if (!duplicated && rightBorder < TinyEngine.width - speed) {
             ScrollingBackground scrollingBackground = new ScrollingBackground(this.getImage(), getZIndex());
-            scrollingBackground.move(new Vector2D(rightBorder, 0));
+            scrollingBackground.move(new Vector2D(rightBorder - speed, 0));
             duplicated = true;
         }
 
