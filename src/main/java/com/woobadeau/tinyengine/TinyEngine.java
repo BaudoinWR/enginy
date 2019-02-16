@@ -9,22 +9,15 @@ import com.woobadeau.tinyengine.things.ui.UIInterfaceProvider;
 
 
 import javax.swing.Timer;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
-import static java.util.Optional.ofNullable;
 
 public class TinyEngine {
   private static Logger logger = Logger.getLogger(Dotty.class.getName());
@@ -133,29 +126,30 @@ public class TinyEngine {
 
   /**
    * Creates a thing with arguments then calls the callback on it for initialization purposes.
+   * @param <T> type of spawned object
    * @param toSpawn class of thing to spawn
    * @param callback method
-   * @param <T> type of spawned object
    * @throws NoSuchMethodException if no constructor found with the arguments
    */
-  public static <T extends Thing> void spawn(Supplier<T> toSpawn, Consumer<T> callback) {
-    CompletableFuture.runAsync(() -> {
+  public static <T extends Thing> CompletableFuture<T> spawn(Supplier<T> toSpawn, Consumer<T> callback) {
+    return CompletableFuture.supplyAsync(() -> {
       T thing = toSpawn.get();
       if (callback != null) {
         callback.accept(thing);
       }
       register(thing);
+      return thing;
     });
   }
 
   /**
    * Creates a thing with arguments then calls the callback on it for initialization purposes.
-   * @param toSpawn class of thing to spawn
    * @param <T> type of spawned object
+   * @param toSpawn class of thing to spawn
    * @throws NoSuchMethodException if no constructor found with the arguments
    */
-  public static <T extends Thing> void spawn(Supplier<T> toSpawn) {
-    spawn(toSpawn, null);
+  public static <T extends Thing> CompletableFuture<T> spawn(Supplier<T> toSpawn) {
+    return spawn(toSpawn, null);
   }
 
 }

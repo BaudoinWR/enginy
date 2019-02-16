@@ -8,7 +8,7 @@ import com.woobadeau.tinyengine.things.physics.MovingDot;
 import com.woobadeau.tinyengine.things.ui.swing.SwingUIInterfaceProvider;
 
 public class Dotty {
-  public static void main(String[] args) throws NoSuchMethodException {
+  public static void main(String[] args) {
     new TinyEngine(600, 600, () -> {
     }, new SwingUIInterfaceProvider()).start();
 
