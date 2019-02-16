@@ -19,8 +19,7 @@ public abstract class Thing {
   private boolean visible = true;
 
 
-  public Thing() {
-    TinyEngine.register(this);
+  protected Thing() {
     onCreate();
   }
 

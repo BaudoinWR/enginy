@@ -9,13 +9,21 @@ import com.woobadeau.tinyengine.things.ui.UIInterfaceProvider;
 
 
 import javax.swing.Timer;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import static java.util.Optional.ofNullable;
 
 public class TinyEngine {
   private static Logger logger = Logger.getLogger(Dotty.class.getName());
@@ -95,7 +103,7 @@ public class TinyEngine {
     allThings.forEach(thing -> { if (thing.isVisible()) thing.draw(display); });
   }
 
-  public static void register(Thing thing) {
+  private static void register(Thing thing) {
     things.add(thing);
     if (thing instanceof Collider) {
       allThingsCollidable.add(thing);
@@ -122,6 +130,35 @@ public class TinyEngine {
             .forEach(action);
   }
 
+  /**
+   * Creates a thing with arguments then calls the callback on it for initialization purposes.
+   * @param toSpawn class of thing to spawn
+   * @param callback method
+   * @param args constructor arguments to be called
+   * @param <T> type of spawned object
+   * @throws NoSuchMethodException if no constructor found with the arguments
+   */
+  public static <T extends Thing> void spawn(Class<T> toSpawn, Consumer<T> callback, Object...args) throws NoSuchMethodException {
+    Class[] parameterTypes = Arrays.stream(args).map(Object::getClass).toArray(Class[]::new);
+    Constructor<T> declaredConstructor;
+    try {
+      declaredConstructor = toSpawn.getDeclaredConstructor(parameterTypes);
+    } catch (NoSuchMethodException e) {
+      logger.log(Level.SEVERE, "Didn't find matching constructor. Did you try using primitive? Replace primitives by their class variants");
+      throw e;
+    }
+    CompletableFuture.runAsync(() -> {
+      try {
+        T thing = declaredConstructor.newInstance(args);
+        register(thing);
+        if (callback != null) {
+          callback.accept(thing);
+        }
+      } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+        e.printStackTrace();
+      }
+    });
+  }
 
 }
  

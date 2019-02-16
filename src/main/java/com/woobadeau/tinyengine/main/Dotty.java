@@ -8,13 +8,20 @@ import com.woobadeau.tinyengine.things.physics.MovingDot;
 import com.woobadeau.tinyengine.things.ui.swing.SwingUIInterfaceProvider;
 
 public class Dotty {
-  public static void main(String[] args) {
+  public static void main(String[] args) throws NoSuchMethodException {
     new TinyEngine(600, 600, () -> {
     }, new SwingUIInterfaceProvider()).start();
-    Halo halo = new Halo(255, 155, 0, 100);
-    MovingDot movingDot = new MovingDot(50, 50, 500, 500);
-    halo.getBehaviors().add(new FollowBehavior(movingDot));
-    new Halo(0,0,255,50, 10).getBehaviors().add(new FollowMouseBehavior());
+
+    TinyEngine.spawn(MovingDot.class, Dotty::followingHalo, 50, 50, 500, 500);
+    TinyEngine.spawn(Halo.class, halo -> halo.getBehaviors().add(new FollowMouseBehavior()),0,0,255,50, 10);
   }
 
+  private static void followingHalo(MovingDot dot) {
+    try {
+      TinyEngine.spawn(Halo.class,
+              halo -> halo.getBehaviors().add(new FollowBehavior(dot)), 255, 155, 0, 100);
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    }
+  }
 }

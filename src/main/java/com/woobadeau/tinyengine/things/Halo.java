@@ -14,7 +14,7 @@ public class Halo extends Thing {
     private int currentSize;
     private boolean growing = true;
 
-    public Halo(int red, int green, int blue, int size, int growthRate) {
+    public Halo(Integer red, Integer green, Integer blue, Integer size, Integer growthRate) {
         setZIndex(100);
         this.currentSize = growthRate == 0 ? size : 1;
         this.red = red;
@@ -25,15 +25,15 @@ public class Halo extends Thing {
         this.setShape(TinyEngine.uiInterfaceProvider.getCircle(getPosition().x   , getPosition().y, 100, 100));
     }
 
-    public Halo(int red, int green, int blue, int size) {
+    public Halo(Integer red, Integer green, Integer blue, Integer size) {
         this(red, green, blue, size, 0);
     }
 
-    public Halo(Color color, int size, int growthRate) {
+    public Halo(Color color, Integer size, Integer growthRate) {
         this(color.getRed(), color.getGreen(), color.getBlue(), size, growthRate);
     }
 
-    public Halo(Color color, int size) {
+    public Halo(Color color, Integer size) {
         this(color, size, 0);
     }
 
