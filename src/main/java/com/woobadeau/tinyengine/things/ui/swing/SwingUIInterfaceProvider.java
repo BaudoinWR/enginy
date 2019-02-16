@@ -60,16 +60,6 @@ public class SwingUIInterfaceProvider implements UIInterfaceProvider {
     }
 
     @Override
-    public Color getRed() {
-        return new AWTColor(java.awt.Color.RED.getRGB());
-    }
-
-    @Override
-    public Color getGreen() {
-        return new AWTColor(java.awt.Color.GREEN.getRGB());
-    }
-
-    @Override
     public Color getColor(int r, int g, int b) {
         return new AWTColor(r, g, b);
     }

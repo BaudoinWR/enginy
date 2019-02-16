@@ -17,7 +17,7 @@ public class MovingDot extends Thing implements ThingMouseClickListener {
 
   @Override
   public void draw(Display display) {
-    display.setColor(TinyEngine.uiInterfaceProvider.getRed());
+    display.setColor(TinyEngine.uiInterfaceProvider.getColorRed());
     display.drawOval(this.getPosition().x, this.getPosition().y, 5, 5);
   }
 

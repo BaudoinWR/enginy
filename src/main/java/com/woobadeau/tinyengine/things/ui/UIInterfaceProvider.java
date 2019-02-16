@@ -20,9 +20,17 @@ public interface UIInterfaceProvider {
 
     Font getFont(String name, int style, int size);
 
-    Color getRed();
+    default Color getColorRed() {
+        return getColor(255, 0, 0);
+    }
 
-    Color getGreen();
+    default Color getColorGreen() {
+        return getColor(0, 255, 0);
+    }
+
+    default Color getColorBlue() {
+        return getColor(0, 0, 255);
+    }
 
     Color getColor(int r, int g, int b);
 

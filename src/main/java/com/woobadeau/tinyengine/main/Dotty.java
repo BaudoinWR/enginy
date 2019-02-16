@@ -21,7 +21,7 @@ public class Dotty {
     TinyEngine.spawn(() -> new Halo(0,0,255,50, 10),
         halo -> halo.getBehaviors().add(new FollowMouseBehavior()::follow));
     TinyEngine.spawn(() -> new ProgressBar(uiInterfaceProvider.getRectangle(50, 50, 100, 20),
-            uiInterfaceProvider.getGreen(), uiInterfaceProvider.getRed(), Dotty::getPercent));
+            uiInterfaceProvider.getColorGreen(), uiInterfaceProvider.getColorRed(), Dotty::getPercent));
   }
 
   private static Double getPercent() {

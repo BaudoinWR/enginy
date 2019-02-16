@@ -19,7 +19,7 @@ public class Sprite extends RectangularThing {
     public void draw(Display display) {
         display.drawImage(image, getPosition().x, getPosition().y, TinyEngine.display);
         if (TinyEngine.isDebug()) {
-            display.setColor(TinyEngine.uiInterfaceProvider.getGreen());
+            display.setColor(TinyEngine.uiInterfaceProvider.getColorGreen());
             display.draw(getShape());
         }
 
