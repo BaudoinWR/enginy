@@ -1,5 +1,7 @@
 package com.woobadeau.tinyengine.things;
 
+import com.woobadeau.tinyengine.TinyEngine;
+
 import java.util.function.Supplier;
 
 public class Spawner<T extends Thing> extends Thing {
@@ -16,8 +18,7 @@ public class Spawner<T extends Thing> extends Thing {
     public void update() {
         super.update();
         if (test.get()) {
-            T thing = supplier.get();
-            thing.move(this.getPosition());
+            TinyEngine.spawn(supplier, thing -> thing.move(this.getPosition()));
         }
     }
 
