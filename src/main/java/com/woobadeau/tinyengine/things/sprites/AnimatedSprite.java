@@ -7,14 +7,14 @@ public class AnimatedSprite extends Sprite {
     Image[] steps;
     private int currentState = 0;
 
-    public AnimatedSprite(Image spriteSheet, int rows, int columns, int zIndex) {
+    public AnimatedSprite(Image spriteSheet, Integer rows, Integer columns, Integer zIndex) {
         super(spriteSheet, zIndex);
         steps = split(spriteSheet, rows,columns);
         image = steps[0];
         setShape(TinyEngine.uiInterfaceProvider.getRectangle(600,0, image.getWidth(), image.getHeight()));
     }
 
-    private Image[] split(Image spriteSheet, int rows, int columns) {
+    private Image[] split(Image spriteSheet, Integer rows, Integer columns) {
         Image[] bufferedImages = new Image[rows * columns];
         int width = spriteSheet.getWidth() / columns;
         int height = spriteSheet.getHeight() / rows;
@@ -33,7 +33,7 @@ public class AnimatedSprite extends Sprite {
     }
 
     @Override
-    public Sprite scale(int newW, int newH) {
+    public Sprite scale(Integer newW, Integer newH) {
         for (int i = 0; i < steps.length; i++) {
             steps[i] = TinyEngine.uiInterfaceProvider.resize(steps[i], newW, newH);
         }

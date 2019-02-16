@@ -11,10 +11,9 @@ public class RandomMovement extends Movement {
     super(new Vector2D(0, 0));
   }
 
-  @Override
-  public void accept(Thing o) {
+  public void move(Thing o) {
     speed = new Vector2D((int)getRandom(), (int)getRandom());
-    super.accept(o);
+    super.move(o);
   }
 
   private double getRandom() {

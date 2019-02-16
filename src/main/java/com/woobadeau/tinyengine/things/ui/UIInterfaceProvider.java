@@ -12,7 +12,7 @@ public interface UIInterfaceProvider {
 
     Image resize(Image img, int newW, int newH);
 
-    Image getImage(String resource) throws IOException;
+    Image getImage(String resource);
 
     Font getFont(String name, int style, int size);
 

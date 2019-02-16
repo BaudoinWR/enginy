@@ -4,7 +4,7 @@ import com.woobadeau.tinyengine.things.Thing;
 
 import java.util.function.Consumer;
 
-public class FollowBehavior implements Consumer<Thing> {
+public class FollowBehavior {
 
     private Thing toFollow;
 
@@ -12,8 +12,7 @@ public class FollowBehavior implements Consumer<Thing> {
         this.toFollow = toFollow;
     }
 
-    @Override
-    public void accept(Thing thing) {
+    public void follow(Thing thing) {
         if (toFollow.getShape() != null) {
             thing.move(new Vector2D((int) toFollow.getShape().getCenterX(), (int) toFollow.getShape().getCenterY()));
         }

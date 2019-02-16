@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -134,29 +135,16 @@ public class TinyEngine {
    * Creates a thing with arguments then calls the callback on it for initialization purposes.
    * @param toSpawn class of thing to spawn
    * @param callback method
-   * @param args constructor arguments to be called
    * @param <T> type of spawned object
    * @throws NoSuchMethodException if no constructor found with the arguments
    */
-  public static <T extends Thing> void spawn(Class<T> toSpawn, Consumer<T> callback, Object...args) throws NoSuchMethodException {
-    Class[] parameterTypes = Arrays.stream(args).map(Object::getClass).toArray(Class[]::new);
-    Constructor<T> declaredConstructor;
-    try {
-      declaredConstructor = toSpawn.getDeclaredConstructor(parameterTypes);
-    } catch (NoSuchMethodException e) {
-      logger.log(Level.SEVERE, "Didn't find matching constructor. Did you try using primitive? Replace primitives by their class variants");
-      throw e;
-    }
+  public static <T extends Thing> void spawn(Supplier<T> toSpawn, Consumer<T> callback) {
     CompletableFuture.runAsync(() -> {
-      try {
-        T thing = declaredConstructor.newInstance(args);
-        register(thing);
-        if (callback != null) {
-          callback.accept(thing);
-        }
-      } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-        e.printStackTrace();
+      T thing = toSpawn.get();
+      if (callback != null) {
+        callback.accept(thing);
       }
+      register(thing);
     });
   }
 

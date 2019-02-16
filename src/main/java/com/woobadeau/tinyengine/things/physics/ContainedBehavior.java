@@ -3,7 +3,7 @@ import com.woobadeau.tinyengine.things.Thing;
 
 import java.util.function.Consumer;
 
-public class ContainedBehavior implements Consumer<Thing>{
+public class ContainedBehavior {
 
   private final int minY;
   private final int minX;
@@ -17,7 +17,7 @@ public class ContainedBehavior implements Consumer<Thing>{
     this.maxX = maxX;
   }
 
-  public void accept(Thing thing) {
+  public void contain(Thing thing) {
     int x = thing.getPosition().x;
     int y = thing.getPosition().y;
     if (x > maxX) {

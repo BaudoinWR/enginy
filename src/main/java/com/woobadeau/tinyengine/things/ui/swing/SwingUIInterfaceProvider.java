@@ -46,8 +46,12 @@ public class SwingUIInterfaceProvider implements UIInterfaceProvider {
     }
 
     @Override
-    public Image getImage(String resource) throws IOException {
-        return new AWTImage(ImageIO.read(SwingUIInterfaceProvider.class.getResourceAsStream(resource)));
+    public Image getImage(String resource) {
+        try {
+            return new AWTImage(ImageIO.read(SwingUIInterfaceProvider.class.getResourceAsStream(resource)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

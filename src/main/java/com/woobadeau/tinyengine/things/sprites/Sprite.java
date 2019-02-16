@@ -9,7 +9,7 @@ public class Sprite extends RectangularThing {
 
     protected Image image;
 
-    public Sprite(Image image, int zIndex) {
+    public Sprite(Image image, Integer zIndex) {
         super(TinyEngine.uiInterfaceProvider.getRectangle(0,0,image.getWidth(), image.getHeight()));
         this.image = image;
         this.setZIndex(zIndex);
@@ -25,7 +25,7 @@ public class Sprite extends RectangularThing {
 
     }
 
-    public Sprite scale(int newW, int newH) {
+    public Sprite scale(Integer newW, Integer newH) {
         image = TinyEngine.uiInterfaceProvider.resize(image, newW, newH);
         this.setShape(TinyEngine.uiInterfaceProvider.getRectangle((int)this.getShape().getX(),(int) this.getShape().getY(), image.getWidth(), image.getHeight()));
         return this;

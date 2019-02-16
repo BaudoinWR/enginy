@@ -11,8 +11,8 @@ public class MovingDot extends Thing implements ThingMouseClickListener {
 
   public MovingDot(Integer minX, Integer minY, Integer maxX, Integer maxY) {
     this.move(new Vector2D(rand.nextInt(50), rand.nextInt(50)));
-    this.addBehavior(new RandomMovement());
-    this.addBehavior(new ContainedBehavior(minX, minY, maxX, maxY));
+    this.addBehavior(new RandomMovement()::move);
+    this.addBehavior(new ContainedBehavior(minX, minY, maxX, maxY)::contain);
   }
 
   @Override

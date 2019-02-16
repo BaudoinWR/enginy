@@ -12,16 +12,13 @@ public class Dotty {
     new TinyEngine(600, 600, () -> {
     }, new SwingUIInterfaceProvider()).start();
 
-    TinyEngine.spawn(MovingDot.class, Dotty::followingHalo, 50, 50, 500, 500);
-    TinyEngine.spawn(Halo.class, halo -> halo.getBehaviors().add(new FollowMouseBehavior()),0,0,255,50, 10);
+    TinyEngine.spawn(() -> new MovingDot(50, 50, 500, 500), Dotty::followingHalo);
+    TinyEngine.spawn(() -> new Halo(0,0,255,50, 10),
+        halo -> halo.getBehaviors().add(new FollowMouseBehavior()::follow));
   }
 
   private static void followingHalo(MovingDot dot) {
-    try {
-      TinyEngine.spawn(Halo.class,
-              halo -> halo.getBehaviors().add(new FollowBehavior(dot)), 255, 155, 0, 100);
-    } catch (NoSuchMethodException e) {
-      e.printStackTrace();
-    }
+    TinyEngine.spawn(() -> new Halo(255, 155, 0, 100),
+        halo -> halo.getBehaviors().add(new FollowBehavior(dot)::follow));
   }
 }
