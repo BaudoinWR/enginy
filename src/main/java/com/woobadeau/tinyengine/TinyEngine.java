@@ -7,7 +7,6 @@ import com.woobadeau.tinyengine.things.physics.Vector2D;
 import com.woobadeau.tinyengine.things.ui.Display;
 import com.woobadeau.tinyengine.things.ui.UIInterfaceProvider;
 
-
 import javax.swing.Timer;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -45,12 +44,20 @@ public class TinyEngine {
     TinyEngine.initialization = initialization;
   }
 
+  public static void setup(Runnable initialization) {
+    TinyEngine.initialization = initialization;
+  }
+
   public static void restart() {
-    timer.stop();
-    restart = true;
+    if (timer != null && timer.isRunning()) {
+      restart = true;
+    } else {
+      start();
+    }
   }
 
   public static void start() {
+    clearAll();
     initialization.run();
     timer = new Timer(1000/25, e -> tick());
     timer.setRepeats(true);
@@ -72,8 +79,8 @@ public class TinyEngine {
     draw(allThings);
     display.repaint();
     if (restart) {
+      timer.stop();
       restart = false;
-      clearAll();
       start();
     }
   }

@@ -124,12 +124,12 @@ public class SwingDisplay extends JPanel implements Display, MouseListener {
     @Override
     public void drawHalo(int red, int green, int blue, int x, int y, int currentSize) {
 
-        Color colors[] = {new Color(red, green, blue, 150),
+        Color[] colors = {new Color(red, green, blue, 150),
                 new Color(red, green, blue, 100),
                 new Color(red, green, blue, 25),
                 new Color(red, green, blue, 0),
         };
-        float fractions[] = {0.0f, 0.2f, 0.6f, 1.0f};
+        float[] fractions = {0.0f, 0.2f, 0.6f, 1.0f};
 
         RadialGradientPaint paint =
                 new RadialGradientPaint(new Point(x, y), currentSize, fractions, colors);
