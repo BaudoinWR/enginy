@@ -148,5 +148,15 @@ public class TinyEngine {
     });
   }
 
+  /**
+   * Creates a thing with arguments then calls the callback on it for initialization purposes.
+   * @param toSpawn class of thing to spawn
+   * @param <T> type of spawned object
+   * @throws NoSuchMethodException if no constructor found with the arguments
+   */
+  public static <T extends Thing> void spawn(Supplier<T> toSpawn) {
+    spawn(toSpawn, null);
+  }
+
 }
  
