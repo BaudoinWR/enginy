@@ -103,7 +103,12 @@ public class SwingDisplay extends JPanel implements Display, MouseListener {
 
     @Override
     public void draw(Shape shape) {
+        graphics.draw((java.awt.Shape) shape);
+    }
 
+    @Override
+    public void fillRectangle(Shape shape) {
+        graphics.fillRect((int) shape.getX(), (int) shape.getY(), (int) shape.getWidth(), (int) shape.getHeight());
     }
 
     @Override

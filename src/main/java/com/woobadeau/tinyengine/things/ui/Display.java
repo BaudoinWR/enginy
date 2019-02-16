@@ -9,6 +9,8 @@ public interface Display {
 
     void draw(Shape shape);
 
+    void fillRectangle(Shape shape);
+
     void setFont(Font font);
 
     void drawString(String string, int x, int y);

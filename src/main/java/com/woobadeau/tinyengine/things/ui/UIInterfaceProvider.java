@@ -8,6 +8,10 @@ public interface UIInterfaceProvider {
 
     Shape getRectangle(int x, int y, int width, int height);
 
+    default Shape getRectangle(double x, double y, double width, double height){
+        return getRectangle((int) x, (int) y, (int) width, (int) height);
+    }
+
     Shape getCircle(int x, int y, int i, int i1);
 
     Image resize(Image img, int newW, int newH);
