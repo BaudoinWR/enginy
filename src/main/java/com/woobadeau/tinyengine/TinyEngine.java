@@ -34,23 +34,23 @@ public class TinyEngine {
   public static boolean debug = false;
   private static boolean restart = false;
   private static Timer timer;
-  private Runnable initialization;
+  private static Runnable initialization;
   public static UIInterfaceProvider uiInterfaceProvider;
 
-  public TinyEngine(int width, int height, Runnable initialization, UIInterfaceProvider uiInterfaceProvider) {
+  public static void setup(int width, int height, Runnable initialization, UIInterfaceProvider uiInterfaceProvider) {
     TinyEngine.width = width;
     TinyEngine.height = height;
     TinyEngine.uiInterfaceProvider = uiInterfaceProvider;
     TinyEngine.display = uiInterfaceProvider.initDisplay(width, height);
-    this.initialization = initialization;
+    TinyEngine.initialization = initialization;
   }
 
-  public void restart() {
+  public static void restart() {
     timer.stop();
     restart = true;
   }
 
-  public void start() {
+  public static void start() {
     initialization.run();
     timer = new Timer(1000/25, e -> tick());
     timer.setRepeats(true);
@@ -64,7 +64,7 @@ public class TinyEngine {
     thingsToBeRemoved.clear();
   }
 
-  void tick() {
+  static void tick() {
     List<Thing> allThings = things.stream().sorted(Comparator.comparing(Thing::getZIndex)).collect(Collectors.toList());
     mousePosition = display.getMousePositionVector();
     applyActions(allThings);

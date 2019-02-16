@@ -13,8 +13,9 @@ import static com.woobadeau.tinyengine.TinyEngine.uiInterfaceProvider;
 public class Dotty {
   private static double percent = 0;
   public static void main(String[] args) {
-    new TinyEngine(600, 600, () -> {
-    }, new SwingUIInterfaceProvider()).start();
+    TinyEngine.setup(600, 600, () -> {
+    }, new SwingUIInterfaceProvider());
+    TinyEngine.start();
 
     TinyEngine.spawn(() -> new MovingDot(50, 50, 500, 500), Dotty::followingHalo);
     TinyEngine.spawn(() -> new Halo(0,0,255,50, 10),
