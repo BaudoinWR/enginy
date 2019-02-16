@@ -59,6 +59,7 @@ public class TinyEngine {
   }
 
   private static void clearAll() {
+    things.forEach(Thing::destroy);
     things.clear();
     allThingsCollidable.clear();
     thingsToBeRemoved.clear();
