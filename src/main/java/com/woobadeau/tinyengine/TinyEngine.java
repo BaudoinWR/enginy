@@ -19,10 +19,12 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class TinyEngine {
-  private static Logger logger = Logger.getLogger(Dotty.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(Dotty.class.getName());
   private static final Set<Thing> things = new HashSet<>();
-  private static final Set<Thing> allThingsCollidable = new HashSet<>();
+  private static final Set<Thing> collidables = new HashSet<>();
   private static final Set<Thing> thingsToBeRemoved = new HashSet<>();
+  private static final Set<Thing> thingsToBeAdded = new HashSet<>();
+  private static final Set<Thing> collidablesToBeAdded = new HashSet<>();
 
   public static Display display;
   public static Vector2D mousePosition;
@@ -68,8 +70,9 @@ public class TinyEngine {
   private static void clearAll() {
     things.forEach(Thing::destroy);
     things.clear();
-    allThingsCollidable.clear();
+    collidables.clear();
     thingsToBeRemoved.clear();
+    thingsToBeAdded.clear();
   }
 
   static void tick() {
@@ -78,6 +81,7 @@ public class TinyEngine {
     applyActions(allThings);
     draw(allThings);
     display.repaint();
+    manageNewAndOldThings();
     if (restart) {
       timer.stop();
       restart = false;
@@ -90,14 +94,21 @@ public class TinyEngine {
     allThings.forEach(Thing::update);
     allThings.forEach(Thing::afterUpdate);
     allThings.forEach(Thing::applyBehaviors);
-    allThingsCollidable.stream().filter(t -> t instanceof Collider).forEach(TinyEngine::testCollision);
+    collidables.stream().filter(t -> t instanceof Collider).forEach(TinyEngine::testCollision);
+  }
+
+  private static void manageNewAndOldThings() {
     things.removeAll(thingsToBeRemoved);
-    allThingsCollidable.removeAll(thingsToBeRemoved);
+    things.addAll(thingsToBeAdded);
+    collidables.removeAll(thingsToBeRemoved);
+    collidables.addAll(collidablesToBeAdded);
     thingsToBeRemoved.clear();
+    thingsToBeAdded.clear();
+    collidablesToBeAdded.clear();
   }
 
   private static void testCollision(Thing t) {
-    allThingsCollidable.stream().filter(thing -> thing != t && t.getShape().intersects(thing.getShape()))
+    collidables.stream().filter(thing -> thing != t && t.getShape().intersects(thing.getShape()))
     .forEach(((Collider) t)::collides);
   }
 
@@ -106,9 +117,9 @@ public class TinyEngine {
   }
 
   private static void register(Thing thing) {
-    things.add(thing);
+    thingsToBeAdded.add(thing);
     if (thing instanceof Collider) {
-      allThingsCollidable.add(thing);
+      collidablesToBeAdded.add(thing);
     }
   }
 
