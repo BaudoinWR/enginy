@@ -29,20 +29,18 @@ public class SwingUIInterfaceProvider implements UIInterfaceProvider {
     }
 
     @Override
-    public Image resize(Image img, int newW, int newH) {
-        java.awt.Image tmp = ((AWTImage) img).getImage().getScaledInstance(newW, newH, java.awt.Image.SCALE_SMOOTH);
-        AWTImage result = new AWTImage(Math.abs(newW), Math.abs(newH), BufferedImage.TYPE_INT_ARGB);
-
-        Graphics2D g2d = result.getImage().createGraphics();
+    public Image resize(Image img, int newW, int newH){
+        int type = ((AWTImage) img).getImage().getType() == 0? BufferedImage.TYPE_INT_ARGB : ((AWTImage) img).getImage().getType();
+        BufferedImage resizedImage = new BufferedImage(Math.abs(newW), Math.abs(newH), type);
+        Graphics2D g = resizedImage.createGraphics();
         if (newW < 0) {
-            g2d.drawImage(tmp, -newW, 0, newW, newH,null);
+            g.drawImage(((AWTImage) img).getImage(), -newW, 0, newW, newH, null);
+        } else {
+            g.drawImage(((AWTImage) img).getImage(), 0, 0, newW, newH, null);
         }
-        else {
-            g2d.drawImage(tmp, 0,0,null);
-        }
-        g2d.dispose();
+        g.dispose();
 
-        return result;
+        return new AWTImage(resizedImage);
     }
 
     @Override
