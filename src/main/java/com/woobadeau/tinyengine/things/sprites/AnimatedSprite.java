@@ -7,7 +7,7 @@ public class AnimatedSprite extends Sprite {
     BufferedImage[] steps;
     private int currentState = 0;
 
-    public AnimatedSprite(BufferedImage spriteSheet, int rows, int columns, int zIndex) {
+    AnimatedSprite(BufferedImage spriteSheet, int rows, int columns, int zIndex) {
         super(spriteSheet, zIndex);
         steps = split(spriteSheet, rows,columns);
         image = steps[0];

@@ -7,6 +7,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -16,7 +17,7 @@ public abstract class Thing {
   private int zIndex = 10;
   private Set<Thing> things = new HashSet<>();
   private boolean visible = true;
-
+  private boolean collisionEnabled = false;
 
   public Thing() {
     TinyEngine.register(this);
@@ -36,7 +37,6 @@ public abstract class Thing {
     getThings().forEach(TinyEngine::remove);
     getThings().forEach(Thing::destroy);
     getThings().clear();
-    behaviors.clear();
   }
   public void draw(Graphics graphics) {}
   public final void applyBehaviors() {
@@ -45,7 +45,9 @@ public abstract class Thing {
 
   public final void move(Vector2D newPosition) {
     position = newPosition;
-    updateShape();
+      Optional.ofNullable(getShape())
+              .map(Shape::getBounds)
+              .ifPresent(bounds -> bounds.setLocation((int)position.x, (int)position.y));
   }
 
   void updateShape() {
@@ -89,5 +91,12 @@ public abstract class Thing {
   }
 
   public void collides(Thing thing) {}
+
+  public boolean collisionEnabled() {
+    return collisionEnabled;
+  }
+
+  public void onRemove() {
+    behaviors.clear();
+  }
 }
- 

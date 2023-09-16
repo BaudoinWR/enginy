@@ -23,7 +23,7 @@ public class Halo extends Thing {
         this.blue = blue;
         this.maxSize = size;
         this.growthRate = growthRate;
-        this.setShape(new Ellipse2D.Float(getPosition().x   , getPosition().y, 100, 100));
+        this.setShape(new Ellipse2D.Float((float) getPosition().x, (float) getPosition().y, 100, 100));
     }
 
     public Halo(int red, int green, int blue, int size) {
@@ -48,7 +48,7 @@ public class Halo extends Thing {
         float fractions[] = { 0.0f, 0.2f, 0.6f, 1.0f };
 
         RadialGradientPaint paint =
-                new RadialGradientPaint(new Point(getPosition().x, getPosition().y), currentSize, fractions, colors);
+                new RadialGradientPaint(new Point((int) getPosition().x, (int) getPosition().y), currentSize, fractions, colors);
         ((Graphics2D)graphics).setPaint(paint);
 
         ((Graphics2D)graphics).fill(new Rectangle(TinyEngine.getSize()));

@@ -10,7 +10,7 @@ public class Sprite extends RectangularThing {
 
     protected Image image;
 
-    public Sprite(BufferedImage image, int zIndex) {
+    Sprite(BufferedImage image, int zIndex) {
         super(new Rectangle(0,0,image.getWidth(null), image.getHeight(null)));
         this.image = image;
         this.setZIndex(zIndex);
@@ -18,7 +18,7 @@ public class Sprite extends RectangularThing {
 
     @Override
     public void draw(Graphics graphics) {
-        graphics.drawImage(getImage(), getPosition().x, getPosition().y, null, TinyEngine.display);
+        graphics.drawImage(getImage(), (int) (getPosition().x), (int) (getPosition().y), null, TinyEngine.display);
         if (TinyEngine.isDebug()) {
             graphics.setColor(Color.GREEN);
             ((Graphics2D)graphics).draw(getShape());

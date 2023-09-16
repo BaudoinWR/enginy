@@ -1,13 +1,14 @@
-package com.woobadeau.tinyengine.things.physics;
+package com.woobadeau.tinyengine.behavior;
 
 import com.woobadeau.tinyengine.things.Thing;
+import com.woobadeau.tinyengine.things.physics.Vector2D;
 
-public class RandomMovement extends Movement {
+public class RandomMovementBehavior extends ConstantMovementBehavior {
 
   private double max = 10;
   private double min = -10;
 
-  public RandomMovement() {
+  public RandomMovementBehavior() {
     super(new Vector2D(0, 0));
   }
 
@@ -21,4 +22,4 @@ public class RandomMovement extends Movement {
     return (Math.random() * ((max - min) + 1)) + min;
   }
 }
- 
+

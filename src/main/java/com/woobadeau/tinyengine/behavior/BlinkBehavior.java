@@ -1,8 +1,8 @@
-package com.woobadeau.tinyengine.things;
+package com.woobadeau.tinyengine.behavior;
 
-import java.util.function.Consumer;
+import com.woobadeau.tinyengine.things.Thing;
 
-public class BlinkBehavior implements Consumer<Thing> {
+public class BlinkBehavior implements Behavior {
 
     private long lastBlink;
     private final int intervalMs;

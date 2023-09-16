@@ -1,9 +1,9 @@
-package com.woobadeau.tinyengine.things.physics;
+package com.woobadeau.tinyengine.behavior;
 import com.woobadeau.tinyengine.things.Thing;
 
-import java.util.function.Consumer;
+import com.woobadeau.tinyengine.things.physics.Vector2D;
 
-public class ContainedBehavior implements Consumer<Thing>{
+public class ContainedBehavior implements Behavior {
 
   private final int minY;
   private final int minX;
@@ -18,8 +18,8 @@ public class ContainedBehavior implements Consumer<Thing>{
   }
 
   public void accept(Thing thing) {
-    int x = thing.getPosition().x;
-    int y = thing.getPosition().y;
+    double x = thing.getPosition().x;
+    double y = thing.getPosition().y;
     if (x > maxX) {
       x = maxX;
     }
@@ -35,4 +35,4 @@ public class ContainedBehavior implements Consumer<Thing>{
     thing.move(new Vector2D(x, y));
   }
 }
- 
+

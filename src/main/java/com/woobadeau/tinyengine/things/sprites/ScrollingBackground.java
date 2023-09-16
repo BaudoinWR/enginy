@@ -1,8 +1,8 @@
-package com.woobadeau.tinyengine;
+package com.woobadeau.tinyengine.things.sprites;
 
-import com.woobadeau.tinyengine.things.physics.Movement;
+import com.woobadeau.tinyengine.TinyEngine;
+import com.woobadeau.tinyengine.behavior.ConstantMovementBehavior;
 import com.woobadeau.tinyengine.things.physics.Vector2D;
-import com.woobadeau.tinyengine.things.sprites.Sprite;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -24,12 +24,12 @@ public class ScrollingBackground extends Sprite {
     }
 
     void init() {
-        this.addBehavior(new Movement(new Vector2D(-speed, 0)));
+        this.addBehavior(new ConstantMovementBehavior(new Vector2D(-speed, 0)));
     }
 
     @Override
     public void update() {
-        int rightBorder = this.getPosition().x + getImage().getWidth(null);
+        int rightBorder = (int) (this.getPosition().x + getImage().getWidth(null));
         if (!duplicated && rightBorder < TinyEngine.screen.getWidth() + speed) {
             ScrollingBackground scrollingBackground = new ScrollingBackground((BufferedImage) this.getImage(), getZIndex());
             scrollingBackground.move(new Vector2D(rightBorder, 0));

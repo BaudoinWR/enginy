@@ -1,10 +1,10 @@
-package com.woobadeau.tinyengine.things.physics;
+package com.woobadeau.tinyengine.behavior;
 
 import com.woobadeau.tinyengine.things.Thing;
 
-import java.util.function.Consumer;
+import com.woobadeau.tinyengine.things.physics.Vector2D;
 
-public class FollowBehavior implements Consumer<Thing> {
+public class FollowBehavior implements Behavior {
 
     private Thing toFollow;
 

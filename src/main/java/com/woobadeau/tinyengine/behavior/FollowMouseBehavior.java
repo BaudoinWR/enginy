@@ -1,11 +1,11 @@
-package com.woobadeau.tinyengine.things.physics;
+package com.woobadeau.tinyengine.behavior;
 
 import com.woobadeau.tinyengine.TinyEngine;
 import com.woobadeau.tinyengine.things.Thing;
 
-import java.util.function.Consumer;
+import com.woobadeau.tinyengine.things.physics.Vector2D;
 
-public class FollowMouseBehavior implements Consumer<Thing> {
+public class FollowMouseBehavior implements Behavior {
     @Override
     public void accept(Thing thing) {
         if (TinyEngine.mousePosition != null) {

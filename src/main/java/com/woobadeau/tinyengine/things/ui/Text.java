@@ -22,6 +22,6 @@ public class Text extends Thing {
     public void draw(Graphics graphics) {
         graphics.setFont(font);
         graphics.setColor(color);
-        graphics.drawString(string, getPosition().x, getPosition().y);
+        graphics.drawString(string, (int) getPosition().x, (int) getPosition().y);
     }
 }
