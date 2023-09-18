@@ -15,7 +15,7 @@ public class Text extends Thing {
         this.string = string;
         this.font = font;
         this.color = color;
-        this.move(position);
+        this.moveTo(position);
     }
 
     @Override

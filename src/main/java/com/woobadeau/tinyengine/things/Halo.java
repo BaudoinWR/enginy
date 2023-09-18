@@ -23,7 +23,6 @@ public class Halo extends Thing {
         this.blue = blue;
         this.maxSize = size;
         this.growthRate = growthRate;
-        this.setShape(new Ellipse2D.Float((float) getPosition().x, (float) getPosition().y, 100, 100));
     }
 
     public Halo(int red, int green, int blue, int size) {

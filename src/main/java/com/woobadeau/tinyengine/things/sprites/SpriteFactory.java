@@ -12,8 +12,16 @@ public class SpriteFactory {
         return new Sprite(getBufferedImage(resource), 0);
     }
 
+    public static Sprite createSprite(BufferedImage image) throws IOException {
+        return new Sprite(image, 0);
+    }
+
     public static AnimatedSprite createAnimatedSprite(String resource, int rows, int columns) throws IOException {
         return new AnimatedSprite(getBufferedImage(resource), rows, columns, 0);
+    }
+
+    public static SpriteSheet createSpriteSheet(String resource, int rows, int columns) throws IOException {
+        return new SpriteSheet(getBufferedImage(resource), rows, columns);
     }
 
     private static BufferedImage getBufferedImage(String resource) throws IOException {

@@ -32,7 +32,7 @@ public class ContainedBehavior implements Behavior {
     if (y < minY) {
       y = minY;
     }
-    thing.move(new Vector2D(x, y));
+    thing.moveTo(new Vector2D(x, y));
   }
 }
 

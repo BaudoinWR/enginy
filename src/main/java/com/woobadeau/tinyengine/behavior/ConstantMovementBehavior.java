@@ -12,7 +12,7 @@ public class ConstantMovementBehavior implements Behavior {
 
   @Override
   public void accept(Thing o) {
-    o.move(o.getPosition().add(speed));
+    o.moveTo(o.getPosition().add(speed));
   }
 }
 

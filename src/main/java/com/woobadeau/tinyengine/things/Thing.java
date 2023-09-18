@@ -13,7 +13,6 @@ import java.util.function.Consumer;
 
 public abstract class Thing {
   private Vector2D position = new Vector2D(0,0);
-  private Shape shape;
   private int zIndex = 10;
   private Set<Thing> things = new HashSet<>();
   private boolean visible = true;
@@ -43,11 +42,12 @@ public abstract class Thing {
     getBehaviors().forEach(consumer -> consumer.accept(this));
   }
 
-  public final void move(Vector2D newPosition) {
+  public final void moveTo(Vector2D newPosition) {
     position = newPosition;
-      Optional.ofNullable(getShape())
-              .map(Shape::getBounds)
-              .ifPresent(bounds -> bounds.setLocation((int)position.x, (int)position.y));
+  }
+
+  public final void move(Vector2D movement) {
+    position = position.add(movement);
   }
 
   void updateShape() {
@@ -56,10 +56,6 @@ public abstract class Thing {
 
   public Vector2D getPosition() {
     return position;
-  }
-
-  public Shape getShape() {
-    return shape;
   }
 
   public int getZIndex() {
@@ -74,11 +70,7 @@ public abstract class Thing {
     return behaviors;
   }
 
-  protected void setShape(Shape shape) {
-    this.shape = shape;
-  }
-
-  protected void setZIndex(int zIndex) {
+  public void setZIndex(int zIndex) {
     this.zIndex = zIndex;
   }
 

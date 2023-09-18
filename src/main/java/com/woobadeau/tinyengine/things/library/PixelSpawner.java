@@ -21,9 +21,7 @@ public class PixelSpawner extends Spawner {
     protected Pixel spawn() {
         int x = (int) (getPosition().x + zone.getWidth() * Math.random());
         int y = (int) (getPosition().y + zone.getHeight() * Math.random());
-        //System.out.printf("Spawning pixel at %s, %s%n", x, y);
         Pixel pixel = new MouseListeningPixel(x, y);
-        int speedX, speedY;
         Point middle = new Point(TinyEngine.width / 2, TinyEngine.height / 2);
         Vector2D direction = new Vector2D(x - middle.x, y - middle.y);
         if (direction.x == 0 && direction.y == 0) {
@@ -47,6 +45,11 @@ public class PixelSpawner extends Spawner {
         @Override
         public void onClick() {
             System.out.println("clicked");
+        }
+
+        @Override
+        public Rectangle getCollidingZone() {
+            return new Rectangle((int) getPosition().x, (int) getPosition().y, 1, 1);
         }
     }
 }

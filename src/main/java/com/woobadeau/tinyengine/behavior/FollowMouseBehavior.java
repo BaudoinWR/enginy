@@ -9,7 +9,7 @@ public class FollowMouseBehavior implements Behavior {
     @Override
     public void accept(Thing thing) {
         if (TinyEngine.mousePosition != null) {
-            thing.move(new Vector2D(TinyEngine.mousePosition.x, TinyEngine.mousePosition.y));
+            thing.moveTo(new Vector2D(TinyEngine.mousePosition.x, TinyEngine.mousePosition.y));
         }
     }
 }

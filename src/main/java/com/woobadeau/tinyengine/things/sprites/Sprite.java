@@ -1,16 +1,16 @@
 package com.woobadeau.tinyengine.things.sprites;
 
-import com.woobadeau.tinyengine.things.RectangularThing;
 import com.woobadeau.tinyengine.TinyEngine;
-
+import com.woobadeau.tinyengine.things.RectangularThing;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Sprite extends RectangularThing {
 
     protected Image image;
+    private boolean xFlipped;
 
-    Sprite(BufferedImage image, int zIndex) {
+    protected Sprite(BufferedImage image, int zIndex) {
         super(new Rectangle(0,0,image.getWidth(null), image.getHeight(null)));
         this.image = image;
         this.setZIndex(zIndex);
@@ -18,21 +18,36 @@ public class Sprite extends RectangularThing {
 
     @Override
     public void draw(Graphics graphics) {
-        graphics.drawImage(getImage(), (int) (getPosition().x), (int) (getPosition().y), null, TinyEngine.display);
+        if (xFlipped) {
+            int width = image.getWidth(null);
+            int height = image.getHeight(null);
+            int x = (int) getPosition().x;
+            int y = (int) getPosition().y;
+            graphics.drawImage(image, x + width, y, -width, height, null);
+        } else {
+            graphics.drawImage(image, (int) (getPosition().x), (int) (getPosition().y), null);
+        }
         if (TinyEngine.isDebug()) {
             graphics.setColor(Color.GREEN);
-            ((Graphics2D)graphics).draw(getShape());
+            ((Graphics2D)graphics).draw(shape);
         }
-
     }
 
     public Sprite scale(int newW, int newH) {
         image = ImageTools.resize((BufferedImage) getImage(), newW, newH);
-        this.setShape(new Rectangle(this.getShape().getBounds().x,this.getShape().getBounds().y, getImage().getWidth(null), getImage().getHeight(null)));
+        this.shape = (new Rectangle(shape.getBounds().x,shape.getBounds().y, getImage().getWidth(null), getImage().getHeight(null)));
         return this;
     }
 
     public Image getImage() {
         return image;
+    }
+
+    public boolean isxFlipped() {
+        return xFlipped;
+    }
+
+    public void setxFlipped(boolean xFlipped) {
+        this.xFlipped = xFlipped;
     }
 }

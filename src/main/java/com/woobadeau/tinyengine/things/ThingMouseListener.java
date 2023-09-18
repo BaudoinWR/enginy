@@ -1,4 +1,6 @@
 package com.woobadeau.tinyengine.things;
 
-public interface ThingMouseListener {
+import com.woobadeau.tinyengine.things.physics.Bounded;
+
+public interface ThingMouseListener extends Bounded {
 }

@@ -12,7 +12,7 @@ public class MovingDot extends Thing implements ThingMouseClickListener {
   Random rand = new Random();
 
   public MovingDot(int minX, int minY, int maxX, int maxY) {
-    this.move(new Vector2D(rand.nextInt(50), rand.nextInt(50)));
+    this.moveTo(new Vector2D(rand.nextInt(50), rand.nextInt(50)));
     this.addBehavior(new RandomMovementBehavior());
     this.addBehavior(new ContainedBehavior(minX, minY, maxX, maxY));
   }
@@ -27,5 +27,10 @@ public class MovingDot extends Thing implements ThingMouseClickListener {
   public void onClick() {
     System.out.println("clicked");
   }
+
+    @Override
+    public Rectangle getCollidingZone() {
+        return new Rectangle((int) this.getPosition().x, (int) this.getPosition().y, 5, 5);
+    }
 }
 

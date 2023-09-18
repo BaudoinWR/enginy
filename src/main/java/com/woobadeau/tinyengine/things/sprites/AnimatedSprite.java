@@ -7,11 +7,11 @@ public class AnimatedSprite extends Sprite {
     BufferedImage[] steps;
     private int currentState = 0;
 
-    AnimatedSprite(BufferedImage spriteSheet, int rows, int columns, int zIndex) {
+    protected AnimatedSprite(BufferedImage spriteSheet, int rows, int columns, int zIndex) {
         super(spriteSheet, zIndex);
         steps = split(spriteSheet, rows,columns);
         image = steps[0];
-        setShape(new Rectangle(600,0, getImage().getWidth(null), getImage().getHeight(null)));
+        shape = (new Rectangle(600,0, getImage().getWidth(null), getImage().getHeight(null)));
     }
 
     private BufferedImage[] split(BufferedImage spriteSheet, int rows, int columns) {
@@ -29,7 +29,6 @@ public class AnimatedSprite extends Sprite {
     @Override
     public void update() {
         image = steps[currentState];
-        currentState = (currentState+1) % steps.length;
     }
 
     @Override
@@ -38,5 +37,9 @@ public class AnimatedSprite extends Sprite {
             steps[i] = ImageTools.resize(steps[i], newW, newH);
         }
         return this;
+    }
+
+    public void setState(int state) {
+        currentState = state;
     }
 }
