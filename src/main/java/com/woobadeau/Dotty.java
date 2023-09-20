@@ -10,8 +10,8 @@ import java.util.logging.LogManager;
 
 public class Dotty {
     static {
-        InputStream stream = Dotty.class.getClassLoader().
-                getResourceAsStream("logging.properties");
+        InputStream stream = Dotty.class.
+                getResourceAsStream("/logging.properties");
         try {
             LogManager.getLogManager().readConfiguration(stream);
 

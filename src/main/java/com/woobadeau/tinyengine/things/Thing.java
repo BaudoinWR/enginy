@@ -1,6 +1,7 @@
 package com.woobadeau.tinyengine.things;
 
 import com.woobadeau.tinyengine.TinyEngine;
+import com.woobadeau.tinyengine.things.physics.Collider;
 import com.woobadeau.tinyengine.things.physics.Vector2D;
 
 import java.awt.*;
@@ -16,6 +17,7 @@ public abstract class Thing {
   private int zIndex = 10;
   private Set<Thing> things = new HashSet<>();
   private boolean visible = true;
+  private boolean active = true;
   private boolean collisionEnabled = false;
 
   public Thing() {
@@ -37,6 +39,14 @@ public abstract class Thing {
     getThings().forEach(Thing::destroy);
     getThings().clear();
   }
+  public final void drawThing(Graphics graphics) {
+      draw(graphics);
+      if (this instanceof Collider && TinyEngine.isDebug()) {
+          graphics.setColor(Color.GREEN);
+          ((Graphics2D)graphics).draw(((Collider) this).getCollidingZone());
+      }
+  }
+
   public void draw(Graphics graphics) {}
   public final void applyBehaviors() {
     getBehaviors().forEach(consumer -> consumer.accept(this));
@@ -91,4 +101,12 @@ public abstract class Thing {
   public void onRemove() {
     behaviors.clear();
   }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

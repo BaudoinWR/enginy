@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class AnimatedSprite extends Sprite {
-    BufferedImage[] steps;
+    protected BufferedImage[] steps;
     private int currentState = 0;
 
     protected AnimatedSprite(BufferedImage spriteSheet, int rows, int columns, int zIndex) {

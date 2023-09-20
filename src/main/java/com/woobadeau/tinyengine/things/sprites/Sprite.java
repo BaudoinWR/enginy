@@ -27,10 +27,6 @@ public class Sprite extends RectangularThing {
         } else {
             graphics.drawImage(image, (int) (getPosition().x), (int) (getPosition().y), null);
         }
-        if (TinyEngine.isDebug()) {
-            graphics.setColor(Color.GREEN);
-            ((Graphics2D)graphics).draw(shape);
-        }
     }
 
     public Sprite scale(int newW, int newH) {

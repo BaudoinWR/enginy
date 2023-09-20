@@ -92,8 +92,13 @@ public class TinyEngine {
                 .sorted(Comparator.comparing(Thing::getZIndex))
                 .distinct()
                 .toList();
+        List<Thing> allActiveThings = things.stream()
+                .filter(Thing::isActive)
+                .distinct()
+                .toList();
         setMousePosition();
-        applyActions(allThings);
+        applyActions(allActiveThings);
+        remove();
         draw(allThings);
         display.repaint();
         if (restart) {
@@ -120,8 +125,12 @@ public class TinyEngine {
                 .filter(t -> t instanceof Collider)
                 .map(t -> (Collider) t)
                 .toList());
+    }
+
+    private static void remove() {
         things.removeAll(thingsToBeRemoved);
         thingsToBeRemoved.forEach(Thing::onRemove);
+        thingsToBeRemoved.clear();
     }
 
     private static void collide(List<Collider> things) {
@@ -130,8 +139,8 @@ public class TinyEngine {
             for (int j = i + 1; j < things.size(); j++) {
                 Collider otherThing = things.get(j);
                 if (thing.getCollidingZone().intersects(otherThing.getCollidingZone())) {
-                    ((Collider) thing).collides(otherThing);
-                    ((Collider) otherThing).collides(thing);
+                    thing.collides(otherThing);
+                    otherThing.collides(thing);
                 }
             }
         }
@@ -140,7 +149,7 @@ public class TinyEngine {
     private static void draw(List<Thing> allThings) {
         screen = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = screen.createGraphics();
-        allThings.forEach(thing -> { if (thing.isVisible()) thing.draw(graphics); });
+        allThings.forEach(thing -> { if (thing.isVisible()) thing.drawThing(graphics); });
     }
 
     public static void register(Thing thing) {

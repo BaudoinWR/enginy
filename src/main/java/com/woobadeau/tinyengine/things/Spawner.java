@@ -8,7 +8,7 @@ public abstract class Spawner extends Thing {
         super.update();
         int howMany = shouldSpawn();
         for (int i = 0; i < howMany; i++) {
-            spawn();
+            getThings().add(spawn());
         }
     }
 
