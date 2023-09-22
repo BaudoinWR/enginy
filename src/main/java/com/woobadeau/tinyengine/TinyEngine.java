@@ -181,6 +181,9 @@ public class TinyEngine {
     public static long getTicks() {
         return ticks;
     }
+    public static void resetTicks() {
+        ticks = 0;
+    }
 
     private static class Display extends JPanel implements MouseListener {
 
