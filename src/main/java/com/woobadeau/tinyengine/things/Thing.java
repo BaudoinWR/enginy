@@ -1,14 +1,12 @@
 package com.woobadeau.tinyengine.things;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.woobadeau.tinyengine.TinyEngine;
-import com.woobadeau.tinyengine.things.physics.Collider;
 import com.woobadeau.tinyengine.things.physics.Vector2D;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -39,15 +37,15 @@ public abstract class Thing {
     getThings().forEach(Thing::destroy);
     getThings().clear();
   }
-  public final void drawThing(Graphics graphics) {
-      draw(graphics);
-      if (this instanceof Collider && TinyEngine.isDebug()) {
+  public final void drawThing(SpriteBatch spriteBatch) {
+      draw(spriteBatch);
+      /*if (this instanceof Collider && TinyEngine.isDebug()) {
           graphics.setColor(Color.GREEN);
           ((Graphics2D)graphics).draw(((Collider) this).getCollidingZone());
-      }
+      }*/
   }
 
-  public void draw(Graphics graphics) {}
+  public void draw(SpriteBatch spriteBatch) {}
   public final void applyBehaviors() {
     getBehaviors().forEach(consumer -> consumer.accept(this));
   }

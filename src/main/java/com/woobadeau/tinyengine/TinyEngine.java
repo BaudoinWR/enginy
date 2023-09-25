@@ -1,34 +1,33 @@
 package com.woobadeau.tinyengine;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.woobadeau.tinyengine.libgdx.NestableFrameBuffer;
 import com.woobadeau.tinyengine.things.Thing;
-import com.woobadeau.tinyengine.things.ThingMouseClickListener;
-import com.woobadeau.tinyengine.things.physics.Bounded;
 import com.woobadeau.tinyengine.things.physics.Collider;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.*;
 
 public class TinyEngine {
-    private static int scale = 1;
+    public static int scale = 1;
     private static final Logger LOG = Logger.getLogger(TinyEngine.class.getName());
     private static final Set<Thing> things = new HashSet<>();
     private static final Set<Thing> thingsToBeRemoved = new HashSet<>();
 
-    public static Display display = new Display();
-    public static BufferedImage screen;
-    public static Point mousePosition;
+    //public static Display display = new Display();
+    public static FrameBuffer screen;
+    //public static Point mousePosition;
     public static int width;
     public static int height;
     public static boolean mouseDown = false;
@@ -44,26 +43,33 @@ public class TinyEngine {
     public TinyEngine(int width, int height, int scale, Runnable initialization) {
         TinyEngine.scale = scale;
         this.initialization = initialization;
-        EventQueue.invokeLater(() -> {
-            TinyEngine.width = width;
-            TinyEngine.height = height;
-            screen = new BufferedImage(TinyEngine.width, TinyEngine.height, BufferedImage.TYPE_INT_ARGB);
+        TinyEngine.width = width;
+        TinyEngine.height = height;
+        screen = new NestableFrameBuffer(Pixmap.Format.RGB888, width, height, false);
+        //new BufferedImage(TinyEngine.width, TinyEngine.height, BufferedImage.TYPE_INT_ARGB);
 
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-                LOG.log(Level.SEVERE, "Error", ex);
-            }
+        //try {
+        //    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        //} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        //    LOG.log(Level.SEVERE, "Error", ex);
+        //}
+//
+        //JFrame frame = new JFrame("Testing");
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setLayout(new BorderLayout());
+        //frame.add(display);
+        //frame.pack();
+        //frame.setLocationRelativeTo(null);
+        //frame.setVisible(true);
+        //frame.setResizable(false);
+    }
 
-            JFrame frame = new JFrame("Testing");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setLayout(new BorderLayout());
-            frame.add(display);
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-            frame.setResizable(false);
-        });
+    public static SpriteBatch getSpriteBatch() {
+        SpriteBatch spriteBatch = new SpriteBatch();
+        Matrix4 matrix = new Matrix4();
+        matrix.setToOrtho2D(0, 0, TinyEngine.width, TinyEngine.height);
+        spriteBatch.setProjectionMatrix(matrix);
+        return spriteBatch;
     }
 
     public void restart() {
@@ -75,10 +81,10 @@ public class TinyEngine {
         LOG.info("Starting TinyEngine");
         ticks = 0;
         initialization.run();
-        timer = new Timer(1000/25, e -> tick());
-        timer.setRepeats(true);
-        timer.setCoalesce(true);
-        timer.start();
+        //timer = new Timer(1000/25, e -> tick());
+        //timer.setRepeats(true);
+        //timer.setCoalesce(true);
+        //timer.start();
     }
 
     private static void clearAll() {
@@ -86,21 +92,21 @@ public class TinyEngine {
         thingsToBeRemoved.clear();
     }
 
-    void tick() {
+    public void tick(SpriteBatch spriteBatch) {
         ticks++;
         List<Thing> allThings = things.stream()
                 .sorted(Comparator.comparing(Thing::getZIndex))
                 .distinct()
-                .toList();
+                .collect(Collectors.toList());
         List<Thing> allActiveThings = things.stream()
                 .filter(Thing::isActive)
                 .distinct()
-                .toList();
-        setMousePosition();
+                .collect(Collectors.toList());
+        //setMousePosition();
         applyActions(allActiveThings);
         remove();
-        draw(allThings);
-        display.repaint();
+        draw(spriteBatch, allThings);
+        //display.repaint();
         if (restart) {
             restart = false;
             clearAll();
@@ -108,13 +114,13 @@ public class TinyEngine {
         }
     }
 
-    private static void setMousePosition() {
+   /* private static void setMousePosition() {
         Point actualMousePosition = display.getMousePosition();
         if (actualMousePosition == null) {
             return;
         }
         mousePosition = new Point(actualMousePosition.x / scale, actualMousePosition.y / scale);
-    }
+    }*/
 
     private static void applyActions(List<Thing> allThings) {
         allThings.forEach(Thing::beforeUpdate);
@@ -124,7 +130,7 @@ public class TinyEngine {
         collide(things.stream()
                 .filter(t -> t instanceof Collider)
                 .map(t -> (Collider) t)
-                .toList());
+                .collect(Collectors.toList()));
     }
 
     private static void remove() {
@@ -146,10 +152,70 @@ public class TinyEngine {
         }
     }
 
-    private static void draw(List<Thing> allThings) {
-        screen = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D graphics = screen.createGraphics();
-        allThings.forEach(thing -> { if (thing.isVisible()) thing.drawThing(graphics); });
+    private static void draw(SpriteBatch spriteBatch, List<Thing> allThings) {
+        //screen = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        //screen = new FrameBuffer(Pixmap.Format.RGB888, width, height, false);
+        //Graphics2D graphics = screen.createGraphics();
+
+
+        //screen = getFrameBuffer();
+        //screen.begin();
+        ScreenUtils.clear(new Color(0x081820FF));
+        allThings.forEach(thing -> { if (thing.isVisible()) thing.drawThing(spriteBatch); });
+
+        //SpriteBatch spriteBatch1 = new SpriteBatch();
+        //Pixmap pixmap = new Pixmap( 160, 144, Pixmap.Format.RGB888);
+        //int colorRgba = com.badlogic.gdx.graphics.Color.rgba8888(155, 188, 15, 255);
+        //int colorRgba = com.badlogic.gdx.graphics.Color.rgba8888(224, 248, 208, 255);
+        //pixmap.setColor(new Color(224, 248, 208, 255).toIntBits());
+        //pixmap.fill();
+        //pixmap.drawPixel(0, 0);
+        //pixmap.drawPixel(1, 1, Color.BLUE.toIntBits());
+        //pixmap.drawPixel(2, 2, Color.GREEN.toIntBits());
+        //pixmap.drawPixel(3, 3, Color.GREEN.toIntBits());
+        //pixmap.drawPixel(4, 4, Color.GREEN.toIntBits());
+        //pixmap.drawPixel(5, 5, Color.GREEN.toIntBits());
+        //pixmap.setColor(colorRgba);
+        //pixmap.drawPixel(5,5);
+        //pixmap.setColor(Color.RED);
+        //pixmap.fillCircle(8, 8, 4);
+        //Texture pixmaptex = new Texture( pixmap );
+        //pixmaptex.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        //spriteBatch1.begin();
+        //spriteBatch1.draw(pixmaptex, 0, 0);
+        //spriteBatch1.end();
+        //pixmap.dispose();
+
+        //SpriteBatch spriteBatch1 = new SpriteBatch();
+        //spriteBatch1.begin();
+        //spriteBatch1.draw(new Texture("badlogic.jpg"), 0, 0);
+        //spriteBatch1.end();
+
+
+
+        //screen.end();
+        //drawBufferToBatch(spriteBatch, screen);
+
+
+        //Matrix4 matrix = new Matrix4();
+        //matrix.setToOrtho2D(0, 0, width*scale,height*scale); // here is the actual size you want
+        //spriteBatch.setProjectionMatrix(matrix);
+        //spriteBatch.draw(texture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        //spriteBatch.draw(texture, 0, 0, width*scale, height*scale, 0, 0, width, height, false, true);
+    }
+
+    public static void drawBufferToBatch(SpriteBatch spriteBatch, FrameBuffer buffer) {
+        Texture texture = buffer.getColorBufferTexture();
+        texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        Sprite sprite = new Sprite(texture);
+        sprite.flip(false, true);
+        sprite.setSize(width, height);
+        sprite.setPosition(0,0);
+        sprite.draw(spriteBatch);
+    }
+
+    public static NestableFrameBuffer getFrameBuffer() {
+        return new NestableFrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
     }
 
     public static void register(Thing thing) {
@@ -160,15 +226,15 @@ public class TinyEngine {
         thingsToBeRemoved.add(thing);
     }
 
-    public static Dimension getSize() {
+    /*public static Dimension getSize() {
         return display.getSize();
-    }
+    }*/
 
     public static boolean isDebug() {
         return debug;
     }
 
-    public static void addKeyBinding(String key, Runnable action) {
+    /*public static void addKeyBinding(String key, Runnable action) {
         display.getInputMap().put(KeyStroke.getKeyStroke(key), key);
         display.getActionMap().put(key, new AbstractAction() {
             @Override
@@ -176,7 +242,7 @@ public class TinyEngine {
                 action.run();
             }
         });
-    }
+    }*/
 
     public static long getTicks() {
         return ticks;
@@ -185,7 +251,7 @@ public class TinyEngine {
         ticks = 0;
     }
 
-    private static class Display extends JPanel implements MouseListener {
+    /*private static class Display extends JPanel implements MouseListener {
 
         public Display() {
             this.addMouseListener(this);
@@ -241,6 +307,6 @@ public class TinyEngine {
         @Override
         public void mouseExited(MouseEvent e) {
         }
-    }
+    }*/
 }
 

@@ -36,6 +36,7 @@ public class Halo extends Thing {
     public Halo(Color color, int size) {
         this(color, size, 0);
     }
+/*
 
     @Override
     public void draw(Graphics graphics) {
@@ -66,5 +67,6 @@ public class Halo extends Thing {
         }
 
     }
+*/
 
 }

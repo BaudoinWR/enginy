@@ -1,41 +1,44 @@
 package com.woobadeau.tinyengine.things.sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.woobadeau.tinyengine.TinyEngine;
-import com.woobadeau.tinyengine.things.RectangularThing;
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import com.woobadeau.tinyengine.things.Thing;
 
-public class Sprite extends RectangularThing {
+public class Sprite extends Thing {
 
-    protected Image image;
+    protected Texture image;
     private boolean xFlipped;
 
-    protected Sprite(BufferedImage image, int zIndex) {
-        super(new Rectangle(0,0,image.getWidth(null), image.getHeight(null)));
-        this.image = image;
+    protected Sprite(String imageFile, int zIndex) {
+        image = new Texture(Gdx.files.internal(imageFile));
+
         this.setZIndex(zIndex);
+        //super(new Rectangle(0,0,image.getWidth(null), image.getHeight(null)));
+    }
+
+    protected Sprite(Texture imageFile, int zIndex) {
+        image = imageFile;
+
+        this.setZIndex(zIndex);
+        //super(new Rectangle(0,0,image.getWidth(null), image.getHeight(null)));
     }
 
     @Override
-    public void draw(Graphics graphics) {
-        if (xFlipped) {
-            int width = image.getWidth(null);
-            int height = image.getHeight(null);
-            int x = (int) getPosition().x;
-            int y = (int) getPosition().y;
-            graphics.drawImage(image, x + width, y, -width, height, null);
-        } else {
-            graphics.drawImage(image, (int) (getPosition().x), (int) (getPosition().y), null);
-        }
+    public void draw(SpriteBatch spriteBatch) {
+
+        spriteBatch.draw(image, (int) getPosition().x, (int) getPosition().y);
+
     }
 
     public Sprite scale(int newW, int newH) {
-        image = ImageTools.resize((BufferedImage) getImage(), newW, newH);
-        this.shape = (new Rectangle(shape.getBounds().x,shape.getBounds().y, getImage().getWidth(null), getImage().getHeight(null)));
+     /*   image = ImageTools.resize((BufferedImage) getImage(), newW, newH);
+        this.shape = (new Rectangle(shape.getBounds().x,shape.getBounds().y, getImage().getWidth(null), getImage().getHeight(null)));*/
         return this;
     }
 
-    public Image getImage() {
+    public Texture getImage() {
         return image;
     }
 

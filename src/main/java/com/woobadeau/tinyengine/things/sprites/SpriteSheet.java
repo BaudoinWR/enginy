@@ -1,10 +1,10 @@
 package com.woobadeau.tinyengine.things.sprites;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class SpriteSheet extends AnimatedSprite {
-    protected SpriteSheet(BufferedImage spriteSheet, int rows, int columns) {
+    protected SpriteSheet(String spriteSheet, int rows, int columns) {
         super(spriteSheet, rows, columns, 0);
     }
 
@@ -12,11 +12,8 @@ public class SpriteSheet extends AnimatedSprite {
     public void update() {
     }
 
-    @Override
-    public void draw(Graphics graphics) {
-    }
 
-    public BufferedImage getImage(int index) {
+    public TextureRegion getSubImage(int index) {
         return steps[index];
     }
 }

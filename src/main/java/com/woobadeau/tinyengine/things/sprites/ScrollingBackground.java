@@ -12,13 +12,9 @@ public class ScrollingBackground extends Sprite {
     private int speed = 2;
     private boolean duplicated = false;
 
-    ScrollingBackground(BufferedImage image, int zIndex) {
-        super(image, zIndex);
-        init();
-    }
 
     public ScrollingBackground(String s, int zIndex) throws IOException {
-        super(ImageIO.read(ScrollingBackground.class.getResourceAsStream(s)), zIndex);
+        super(s, zIndex);
         scale(1024, 640);
         init();
     }
@@ -29,10 +25,10 @@ public class ScrollingBackground extends Sprite {
 
     @Override
     public void update() {
-        int rightBorder = (int) (this.getPosition().x + getImage().getWidth(null));
+        int rightBorder = (int) (this.getPosition().x + getImage().getWidth());
         if (!duplicated && rightBorder < TinyEngine.screen.getWidth() + speed) {
-            ScrollingBackground scrollingBackground = new ScrollingBackground((BufferedImage) this.getImage(), getZIndex());
-            scrollingBackground.moveTo(new Vector2D(rightBorder, 0));
+            //ScrollingBackground scrollingBackground = new ScrollingBackground((BufferedImage) this.getImage(), getZIndex());
+            //scrollingBackground.moveTo(new Vector2D(rightBorder, 0));
             duplicated = true;
         }
 

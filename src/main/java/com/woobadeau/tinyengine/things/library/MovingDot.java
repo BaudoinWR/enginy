@@ -8,14 +8,14 @@ import com.woobadeau.tinyengine.things.physics.Vector2D;
 import java.awt.*;
 import java.util.Random;
 
-public class MovingDot extends Thing implements ThingMouseClickListener {
+public class MovingDot extends Thing  {
   Random rand = new Random();
 
   public MovingDot(int minX, int minY, int maxX, int maxY) {
     this.moveTo(new Vector2D(rand.nextInt(50), rand.nextInt(50)));
     this.addBehavior(new RandomMovementBehavior());
     this.addBehavior(new ContainedBehavior(minX, minY, maxX, maxY));
-  }
+  }/*
 
   @Override
   public void draw(Graphics graphics) {
@@ -31,6 +31,6 @@ public class MovingDot extends Thing implements ThingMouseClickListener {
     @Override
     public Rectangle getCollidingZone() {
         return new Rectangle((int) this.getPosition().x, (int) this.getPosition().y, 5, 5);
-    }
+    }*/
 }
 

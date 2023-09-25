@@ -1,42 +1,39 @@
 package com.woobadeau.tinyengine.things.sprites;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.woobadeau.tinyengine.TinyEngine;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class AnimatedSprite extends Sprite {
-    protected BufferedImage[] steps;
+    protected TextureRegion[] steps;
     private int currentState = 0;
 
-    protected AnimatedSprite(BufferedImage spriteSheet, int rows, int columns, int zIndex) {
+    protected AnimatedSprite(String spriteSheet, int rows, int columns, int zIndex) {
         super(spriteSheet, zIndex);
-        steps = split(spriteSheet, rows,columns);
-        image = steps[0];
-        shape = (new Rectangle(600,0, getImage().getWidth(null), getImage().getHeight(null)));
+        steps = split(image, rows,columns);
+        image = steps[0].getTexture();
     }
 
-    private BufferedImage[] split(BufferedImage spriteSheet, int rows, int columns) {
-        BufferedImage[] bufferedImages = new BufferedImage[rows * columns];
+    private TextureRegion[] split(Texture spriteSheet, int rows, int columns) {
+        TextureRegion[] textureRegions = new TextureRegion[rows * columns];
         int width = spriteSheet.getWidth() / columns;
         int height = spriteSheet.getHeight() / rows;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                bufferedImages[i*columns + j] = spriteSheet.getSubimage(j*width, i*height, width, height);
+                textureRegions[i*columns + j] = new TextureRegion(spriteSheet, j*width, i*height, width, height);
             }
         }
-        return bufferedImages;
+        return textureRegions;
     }
 
     @Override
-    public void update() {
-        image = steps[currentState];
-    }
+    public void draw(SpriteBatch spriteBatch) {
 
-    @Override
-    public Sprite scale(int newW, int newH) {
-        for (int i = 0; i < steps.length; i++) {
-            steps[i] = ImageTools.resize(steps[i], newW, newH);
-        }
-        return this;
+        spriteBatch.draw(steps[currentState], (int) getPosition().x, (int) getPosition().y);
+
     }
 
     public void setState(int state) {

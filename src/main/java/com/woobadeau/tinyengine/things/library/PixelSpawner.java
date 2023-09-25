@@ -39,7 +39,7 @@ public class PixelSpawner extends Spawner {
 
     private class MouseListeningPixel extends Pixel implements ThingMouseClickListener {
         public MouseListeningPixel(int x, int y) {
-            super(x, y, new Color(155,188,15));
+            super(x, y, 0xE0F8D0FF);
         }
 
         @Override
