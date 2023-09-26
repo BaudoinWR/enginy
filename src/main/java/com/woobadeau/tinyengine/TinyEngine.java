@@ -15,9 +15,10 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import javax.swing.*;
 
 public class TinyEngine {
     public static int scale = 1;
@@ -37,6 +38,7 @@ public class TinyEngine {
     private static Timer timer;
     private Runnable initialization;
     private static long ticks;
+
     public TinyEngine(int width, int height, Runnable initialization) {
         this(width, height, 1, initialization);
     }
@@ -67,13 +69,13 @@ public class TinyEngine {
     public static SpriteBatch getSpriteBatch() {
         SpriteBatch spriteBatch = new SpriteBatch();
         Matrix4 matrix = new Matrix4();
-        matrix.setToOrtho2D(0, 0, TinyEngine.width, TinyEngine.height);
+        matrix.setToOrtho2D(0, 0, width, height);
         spriteBatch.setProjectionMatrix(matrix);
         return spriteBatch;
     }
 
     public void restart() {
-        timer.stop();
+        timer.cancel();
         restart = true;
     }
 
@@ -81,10 +83,13 @@ public class TinyEngine {
         LOG.info("Starting TinyEngine");
         ticks = 0;
         initialization.run();
-        //timer = new Timer(1000/25, e -> tick());
-        //timer.setRepeats(true);
-        //timer.setCoalesce(true);
-        //timer.start();
+        timer = new Timer("Ticker");
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                tick();
+            }
+        }, 100, 1000 / 25);
     }
 
     private static void clearAll() {
@@ -92,12 +97,9 @@ public class TinyEngine {
         thingsToBeRemoved.clear();
     }
 
-    public void tick(SpriteBatch spriteBatch) {
+    public void tick() {
         ticks++;
-        List<Thing> allThings = things.stream()
-                .sorted(Comparator.comparing(Thing::getZIndex))
-                .distinct()
-                .collect(Collectors.toList());
+
         List<Thing> allActiveThings = things.stream()
                 .filter(Thing::isActive)
                 .distinct()
@@ -105,7 +107,6 @@ public class TinyEngine {
         //setMousePosition();
         applyActions(allActiveThings);
         remove();
-        draw(spriteBatch, allThings);
         //display.repaint();
         if (restart) {
             restart = false;
@@ -152,56 +153,13 @@ public class TinyEngine {
         }
     }
 
-    private static void draw(SpriteBatch spriteBatch, List<Thing> allThings) {
-        //screen = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        //screen = new FrameBuffer(Pixmap.Format.RGB888, width, height, false);
-        //Graphics2D graphics = screen.createGraphics();
-
-
-        //screen = getFrameBuffer();
-        //screen.begin();
+    public static void draw(SpriteBatch spriteBatch) {
+        List<Thing> allThings = things.stream()
+                .sorted(Comparator.comparing(Thing::getZIndex))
+                .distinct()
+                .collect(Collectors.toList());
         ScreenUtils.clear(new Color(0x081820FF));
         allThings.forEach(thing -> { if (thing.isVisible()) thing.drawThing(spriteBatch); });
-
-        //SpriteBatch spriteBatch1 = new SpriteBatch();
-        //Pixmap pixmap = new Pixmap( 160, 144, Pixmap.Format.RGB888);
-        //int colorRgba = com.badlogic.gdx.graphics.Color.rgba8888(155, 188, 15, 255);
-        //int colorRgba = com.badlogic.gdx.graphics.Color.rgba8888(224, 248, 208, 255);
-        //pixmap.setColor(new Color(224, 248, 208, 255).toIntBits());
-        //pixmap.fill();
-        //pixmap.drawPixel(0, 0);
-        //pixmap.drawPixel(1, 1, Color.BLUE.toIntBits());
-        //pixmap.drawPixel(2, 2, Color.GREEN.toIntBits());
-        //pixmap.drawPixel(3, 3, Color.GREEN.toIntBits());
-        //pixmap.drawPixel(4, 4, Color.GREEN.toIntBits());
-        //pixmap.drawPixel(5, 5, Color.GREEN.toIntBits());
-        //pixmap.setColor(colorRgba);
-        //pixmap.drawPixel(5,5);
-        //pixmap.setColor(Color.RED);
-        //pixmap.fillCircle(8, 8, 4);
-        //Texture pixmaptex = new Texture( pixmap );
-        //pixmaptex.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        //spriteBatch1.begin();
-        //spriteBatch1.draw(pixmaptex, 0, 0);
-        //spriteBatch1.end();
-        //pixmap.dispose();
-
-        //SpriteBatch spriteBatch1 = new SpriteBatch();
-        //spriteBatch1.begin();
-        //spriteBatch1.draw(new Texture("badlogic.jpg"), 0, 0);
-        //spriteBatch1.end();
-
-
-
-        //screen.end();
-        //drawBufferToBatch(spriteBatch, screen);
-
-
-        //Matrix4 matrix = new Matrix4();
-        //matrix.setToOrtho2D(0, 0, width*scale,height*scale); // here is the actual size you want
-        //spriteBatch.setProjectionMatrix(matrix);
-        //spriteBatch.draw(texture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        //spriteBatch.draw(texture, 0, 0, width*scale, height*scale, 0, 0, width, height, false, true);
     }
 
     public static void drawBufferToBatch(SpriteBatch spriteBatch, FrameBuffer buffer) {

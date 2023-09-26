@@ -3,6 +3,7 @@ package com.woobadeau.tinyengine.things.sprites;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.woobadeau.tinyengine.TinyEngine;
@@ -25,7 +26,7 @@ public class SpriteFontText extends AnimatedSprite {
         //super.draw();
     }
 
-    public Texture getText(String text, int letterSpacing) {
+    public Sprite getText(String text, int letterSpacing) {
         NestableFrameBuffer nestableFrameBuffer = new NestableFrameBuffer(Pixmap.Format.RGBA8888, TinyEngine.width, TinyEngine.height, false);
         nestableFrameBuffer.begin();
         SpriteBatch spriteBatch = TinyEngine.getSpriteBatch();
@@ -36,11 +37,16 @@ public class SpriteFontText extends AnimatedSprite {
             int index = characters.indexOf(c);
             if (index >= 0) {
                 spriteBatch.draw(steps[index], i * (steps[0].getRegionWidth() + letterSpacing), 0);
-                //spriteBatch.draw(steps[index], 50, 50);
             }
         }
         spriteBatch.end();
         nestableFrameBuffer.end();
-        return nestableFrameBuffer.getColorBufferTexture();
+        Texture texture = nestableFrameBuffer.getColorBufferTexture();
+        texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        com.badlogic.gdx.graphics.g2d.Sprite sprite = new Sprite(texture);
+        sprite.flip(false, true);
+        //sprite.setSize(sprite.getWidth(), sprite.getHeight());
+        sprite.setPosition(20,20);
+        return sprite;
     }
 }

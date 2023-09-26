@@ -2,7 +2,6 @@ package com.woobadeau;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.woobadeau.tinyengine.TinyEngine;
-import com.woobadeau.tinyengine.things.Thing;
 import com.woobadeau.tinyengine.things.library.PixelSpawner;
 import com.woobadeau.tinyengine.things.physics.Vector2D;
 import java.awt.*;

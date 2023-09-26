@@ -1,6 +1,6 @@
 package com.woobadeau.tinyengine.things.sprites;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class SpriteSheet extends AnimatedSprite {
@@ -12,6 +12,9 @@ public class SpriteSheet extends AnimatedSprite {
     public void update() {
     }
 
+    @Override
+    public void draw(SpriteBatch spriteBatch) {
+    }
 
     public TextureRegion getSubImage(int index) {
         return steps[index];
