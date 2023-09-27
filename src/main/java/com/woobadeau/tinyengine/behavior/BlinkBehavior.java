@@ -1,5 +1,6 @@
 package com.woobadeau.tinyengine.behavior;
 
+import com.woobadeau.tinyengine.behavior.Behavior;
 import com.woobadeau.tinyengine.things.Thing;
 
 public class BlinkBehavior implements Behavior {

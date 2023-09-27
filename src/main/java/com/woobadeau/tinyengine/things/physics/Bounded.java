@@ -1,6 +1,7 @@
 package com.woobadeau.tinyengine.things.physics;
 
-import java.awt.*;
+
+import com.badlogic.gdx.math.Rectangle;
 
 public interface Bounded {
     Rectangle getCollidingZone();

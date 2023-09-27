@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.woobadeau.tinyengine.TinyEngine;
 import com.woobadeau.tinyengine.libgdx.NestableFrameBuffer;
+import com.woobadeau.tinyengine.things.sprites.AnimatedSprite;
 
 public class SpriteFontText extends AnimatedSprite {
     private final String characters;
@@ -43,7 +44,9 @@ public class SpriteFontText extends AnimatedSprite {
         nestableFrameBuffer.end();
         Texture texture = nestableFrameBuffer.getColorBufferTexture();
         texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        com.badlogic.gdx.graphics.g2d.Sprite sprite = new Sprite(texture);
+        int width = (steps[0].getRegionWidth() + letterSpacing) * text.length();
+        int height = steps[0].getRegionHeight();
+        Sprite sprite = new Sprite(texture, width, height);
         sprite.flip(false, true);
         //sprite.setSize(sprite.getWidth(), sprite.getHeight());
         sprite.setPosition(20,20);

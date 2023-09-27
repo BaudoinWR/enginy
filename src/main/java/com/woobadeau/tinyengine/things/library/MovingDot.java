@@ -2,10 +2,8 @@ package com.woobadeau.tinyengine.things.library;
 import com.woobadeau.tinyengine.behavior.ContainedBehavior;
 import com.woobadeau.tinyengine.behavior.RandomMovementBehavior;
 import com.woobadeau.tinyengine.things.Thing;
-import com.woobadeau.tinyengine.things.ThingMouseClickListener;
 
 import com.woobadeau.tinyengine.things.physics.Vector2D;
-import java.awt.*;
 import java.util.Random;
 
 public class MovingDot extends Thing  {

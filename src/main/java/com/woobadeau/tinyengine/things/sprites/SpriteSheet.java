@@ -2,6 +2,7 @@ package com.woobadeau.tinyengine.things.sprites;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.woobadeau.tinyengine.things.sprites.AnimatedSprite;
 
 public class SpriteSheet extends AnimatedSprite {
     protected SpriteSheet(String spriteSheet, int rows, int columns) {

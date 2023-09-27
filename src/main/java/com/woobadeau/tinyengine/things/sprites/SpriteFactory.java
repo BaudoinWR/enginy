@@ -1,8 +1,10 @@
 package com.woobadeau.tinyengine.things.sprites;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+
+import com.woobadeau.tinyengine.things.sprites.AnimatedSprite;
+import com.woobadeau.tinyengine.things.sprites.Sprite;
+import com.woobadeau.tinyengine.things.sprites.SpriteFontText;
+import com.woobadeau.tinyengine.things.sprites.SpriteSheet;
 
 public class SpriteFactory {
     SpriteFactory() {

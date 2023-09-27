@@ -1,6 +1,8 @@
 package com.woobadeau.tinyengine.things;
 
 
+import com.woobadeau.tinyengine.things.Thing;
+
 public abstract class Spawner extends Thing {
 
     @Override

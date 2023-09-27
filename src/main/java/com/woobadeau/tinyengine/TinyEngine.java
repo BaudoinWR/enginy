@@ -15,8 +15,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -35,7 +33,6 @@ public class TinyEngine {
 
     public static boolean debug = false;
     private static boolean restart = false;
-    private static Timer timer;
     private Runnable initialization;
     private static long ticks;
 
@@ -75,7 +72,6 @@ public class TinyEngine {
     }
 
     public void restart() {
-        timer.cancel();
         restart = true;
     }
 
@@ -83,13 +79,6 @@ public class TinyEngine {
         LOG.info("Starting TinyEngine");
         ticks = 0;
         initialization.run();
-        timer = new Timer("Ticker");
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                tick();
-            }
-        }, 100, 1000 / 25);
     }
 
     private static void clearAll() {
@@ -145,7 +134,7 @@ public class TinyEngine {
             Collider thing = things.get(i);
             for (int j = i + 1; j < things.size(); j++) {
                 Collider otherThing = things.get(j);
-                if (thing.getCollidingZone().intersects(otherThing.getCollidingZone())) {
+                if (thing.getCollidingZone().overlaps(otherThing.getCollidingZone())) {
                     thing.collides(otherThing);
                     otherThing.collides(thing);
                 }

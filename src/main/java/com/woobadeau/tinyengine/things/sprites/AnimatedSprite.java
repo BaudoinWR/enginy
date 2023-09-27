@@ -3,9 +3,7 @@ package com.woobadeau.tinyengine.things.sprites;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.woobadeau.tinyengine.TinyEngine;
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import com.woobadeau.tinyengine.things.sprites.Sprite;
 
 public class AnimatedSprite extends Sprite {
     protected TextureRegion[] steps;
@@ -31,8 +29,11 @@ public class AnimatedSprite extends Sprite {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-
-        spriteBatch.draw(steps[currentState], (int) getPosition().x, (int) getPosition().y);
+        if (isxFlipped()) {
+            spriteBatch.draw(steps[currentState], (int) getPosition().x + steps[currentState].getRegionWidth(), (int) getPosition().y, -steps[currentState].getRegionWidth(), steps[currentState].getRegionHeight());
+        } else {
+            spriteBatch.draw(steps[currentState], (int) getPosition().x, (int) getPosition().y);
+        }
 
     }
 

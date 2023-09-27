@@ -1,19 +1,19 @@
 package com.woobadeau.tinyengine.things.library;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.woobadeau.tinyengine.TinyEngine;
 import com.woobadeau.tinyengine.behavior.ConstantMovementBehavior;
 import com.woobadeau.tinyengine.behavior.DestroyOutOfScreenBehavior;
 import com.woobadeau.tinyengine.things.Spawner;
 import com.woobadeau.tinyengine.things.ThingMouseClickListener;
+import com.woobadeau.tinyengine.things.library.Pixel;
 import com.woobadeau.tinyengine.things.physics.Vector2D;
-import java.awt.*;
-import java.awt.geom.RectangularShape;
 
 public class PixelSpawner extends Spawner {
 
-    private final RectangularShape zone;
+    private final Rectangle zone;
 
-    public PixelSpawner(RectangularShape zone) {
+    public PixelSpawner(Rectangle zone) {
         this.zone = zone;
     }
 
@@ -22,7 +22,7 @@ public class PixelSpawner extends Spawner {
         int x = (int) (getPosition().x + zone.getWidth() * Math.random());
         int y = (int) (getPosition().y + zone.getHeight() * Math.random());
         Pixel pixel = new MouseListeningPixel(x, y);
-        Point middle = new Point(TinyEngine.width / 2, TinyEngine.height / 2);
+        Vector2D middle = new Vector2D(TinyEngine.width / 2, TinyEngine.height / 2);
         Vector2D direction = new Vector2D(x - middle.x, y - middle.y);
         if (direction.x == 0 && direction.y == 0) {
             direction = new Vector2D(Math.random() * 10, Math.random() * 10);

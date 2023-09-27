@@ -3,8 +3,7 @@ package com.woobadeau.tinyengine.things.sprites;
 import com.woobadeau.tinyengine.TinyEngine;
 import com.woobadeau.tinyengine.behavior.ConstantMovementBehavior;
 import com.woobadeau.tinyengine.things.physics.Vector2D;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import com.woobadeau.tinyengine.things.sprites.Sprite;
 import java.io.IOException;
 
 public class ScrollingBackground extends Sprite {

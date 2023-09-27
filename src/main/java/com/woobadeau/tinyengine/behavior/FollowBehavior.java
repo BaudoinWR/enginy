@@ -1,5 +1,6 @@
 package com.woobadeau.tinyengine.behavior;
 
+import com.woobadeau.tinyengine.behavior.Behavior;
 import com.woobadeau.tinyengine.things.Thing;
 
 import com.woobadeau.tinyengine.things.physics.Collider;
@@ -16,7 +17,7 @@ public class FollowBehavior implements Behavior {
     @Override
     public void accept(Thing thing) {
         if (toFollow instanceof Collider) {
-            thing.moveTo(new Vector2D((int) ((Collider)toFollow).getCollidingZone().getCenterX(), (int) ((Collider)toFollow).getCollidingZone().getCenterY()));
+            thing.moveTo(new Vector2D((int) ((Collider)toFollow).getCollidingZone().getX(), (int) ((Collider)toFollow).getCollidingZone().getY()));
         }
         else {
             thing.moveTo(toFollow.getPosition());

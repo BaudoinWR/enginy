@@ -3,7 +3,6 @@ package com.woobadeau.tinyengine.things.sprites;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.woobadeau.tinyengine.TinyEngine;
 import com.woobadeau.tinyengine.things.Thing;
 
 public class Sprite extends Thing {
@@ -27,8 +26,11 @@ public class Sprite extends Thing {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-
-        spriteBatch.draw(image, (int) getPosition().x, (int) getPosition().y);
+        if (xFlipped) {
+            spriteBatch.draw(image, (int) getPosition().x + image.getWidth(), (int) getPosition().y, -image.getWidth(), image.getHeight());
+        } else {
+            spriteBatch.draw(image, (int) getPosition().x, (int) getPosition().y);
+        }
 
     }
 

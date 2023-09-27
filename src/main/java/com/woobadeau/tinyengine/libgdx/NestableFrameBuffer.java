@@ -17,9 +17,10 @@ package com.woobadeau.tinyengine.libgdx;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.woobadeau.tinyengine.libgdx.GLUtils;
+import com.woobadeau.tinyengine.libgdx.Preconditions;
 
 /**
  * An implementation of libGDX's {@link FrameBuffer} that supports nested
@@ -51,7 +52,7 @@ public class NestableFrameBuffer extends FrameBuffer {
 
     private final boolean hasDepth;
 
-    public NestableFrameBuffer(Pixmap.Format format, int width, int height,
+    public NestableFrameBuffer(Format format, int width, int height,
                                boolean hasDepth, boolean hasStencil) {
         super(format, width, height, hasDepth, hasStencil);
         this.hasDepth = hasDepth;
@@ -72,7 +73,7 @@ public class NestableFrameBuffer extends FrameBuffer {
      * @param hasDepth
      *            whether to attach a depth buffer
      */
-    public NestableFrameBuffer(Pixmap.Format format, int width, int height,
+    public NestableFrameBuffer(Format format, int width, int height,
                                boolean hasDepth) {
         this(format, width, height, hasDepth, false);
     }
